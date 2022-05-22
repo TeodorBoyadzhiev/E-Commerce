@@ -1,13 +1,14 @@
+import { Badge } from '@material-ui/core';
 import { Search, ShoppingCartOutlined } from '@mui/icons-material';
 import React from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
-    height:50px;    
+    height:20px;    
 `
 
 const Wrapper = styled.div`
-    padding:10px 20px;
+    padding:0px 20px;
     display:flex;
     justify-content: space-between;
     align-items:center;
@@ -71,7 +72,9 @@ const Navbar = () => {
                     <MenuItem>Register</MenuItem>
                     <MenuItem>Sign In</MenuItem>
                     <MenuItem>
+                    <Badge badgeContent={4} color="primary">
                         <ShoppingCartOutlined/>
+                    </Badge>
                     </MenuItem>
                 </Right>
             </Wrapper>
