@@ -4,7 +4,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
-    height:20px;    
+    height:60px;    
 `
 
 const Wrapper = styled.div`
@@ -26,7 +26,7 @@ const Language = styled.span`
 `
 
 const SearchContainer = styled.div`
-    border:1px solid lightgray;
+    border:0.5px solid lightgray;
     display:flex;
     align-items:center;
     margin-left:25px;
