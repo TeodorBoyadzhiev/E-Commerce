@@ -21,3 +21,23 @@ export const sliderItems = [
         bg: "f5fafd"
     }
 ]
+
+
+
+export const categories = [
+    {
+        id:1,
+        img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTV2oSAgmuDd69zV1DTOhs3GpVSK1SFUzV3pg&usqp=CAU",
+        title:"SHIRT STYLE!"
+    },
+    {
+        id:2,
+        img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3TMKZ3JS73QZWEidzjUXvobP9MRj3CWBIBA&usqp=CAU",
+        title:"HOODY LOVE!"
+    },
+    {
+        id:3,
+        img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjCq78tuxui6m36oN1smiFRxeYRFSTgrqADA&usqp=CAU",
+        title:"JACKET STYLE!"
+    }
+]
