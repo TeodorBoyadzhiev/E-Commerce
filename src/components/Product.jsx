@@ -65,7 +65,7 @@ const Icon = styled.div`
     }
 `;
 
-export const Product = ({ item }) => {
+const Product = ({ item }) => {
     return (
         <Container>
             <Circle />
@@ -84,3 +84,5 @@ export const Product = ({ item }) => {
         </Container>
     )
 }
+
+export default Product
