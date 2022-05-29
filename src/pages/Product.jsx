@@ -138,9 +138,9 @@ const Product = () => {
           </FilterContainer>
           <AddContainer>
             <AmountContainer>
-              <Remove style={{cursor:"pointer"}} />
+              <Remove style={{ cursor: "pointer" }} />
               <Amount>1</Amount>
-              <Add style={{cursor:"pointer"}} />
+              <Add style={{ cursor: "pointer" }} />
             </AmountContainer>
             <Button>ADD TO CART</Button>
           </AddContainer>
