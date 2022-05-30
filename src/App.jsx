@@ -10,7 +10,7 @@ import Cart from './pages/Cart';
 function App() {
   return (
     <div className="container">
-      <Cart/>
+      <Product/>
     </div>
   );
 }

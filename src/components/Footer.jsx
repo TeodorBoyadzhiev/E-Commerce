@@ -1,14 +1,17 @@
 import { Facebook, Instagram, MailOutlined, Phone, Pinterest, Room, Twitter } from '@mui/icons-material';
 import React from 'react';
 import styled from 'styled-components';
+import { mobile } from '../responsive';
 
 
 const Container = styled.div`
     display:flex;
+    ${mobile({ flexDirection: "column" })};   
+
 `;
 const Left = styled.div`
     flex:1;
-    display:flex:
+    display:flex;
     flex-direction:column;
     padding:20px;
 `;
@@ -36,6 +39,8 @@ const SocialIcon = styled.div`
 const Center = styled.div`
     flex:1;
     padding:20px;
+    ${mobile({ display: "none" })};   
+
 `;
 
 const Title = styled.h3`
@@ -54,7 +59,10 @@ const ListItem = styled.li`
 `;
 
 const Right = styled.div`
-    margin-bottom:20px;
+    flex: 1;
+    padding: 20px;
+    ${mobile({ backgroundColor: "#fcf7f7eb" })};   
+    
 `;
 
 const ContactItem = styled.div`
@@ -110,15 +118,15 @@ const Footer = () => {
             <Right>
                 <Title>Contact</Title>
                 <ContactItem>
-                  <Room style={{marginRight:"10px"}}/>  622 Dixie Path, Soutch Tobinchester 98336
+                    <Room style={{ marginRight: "10px" }} />  622 Dixie Path, Soutch Tobinchester 98336
                 </ContactItem>
                 <ContactItem>
-                   <Phone style={{marginRight:"10px"}}/> +1 234 56 78
+                    <Phone style={{ marginRight: "10px" }} /> +1 234 56 78
                 </ContactItem>
                 <ContactItem>
-                  <MailOutlined style={{marginRight:"10px"}}/>  contact@tushiba.com
+                    <MailOutlined style={{ marginRight: "10px" }} />  contact@tushiba.com
                 </ContactItem>
-                <Payment src="https://i.ibb.co/Qfvn4z6/payment.png"/>
+                <Payment src="https://i.ibb.co/Qfvn4z6/payment.png" />
             </Right>
         </Container>
     )

@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@mui/icons-material';
 
 import {sliderItems} from '../data';
+import { mobile } from '../responsive';
 
 
 const Container = styled.div`
@@ -12,6 +13,8 @@ const Container = styled.div`
     position:relative;
     overflow:hidden;
     padding-top: 20px;
+    ${mobile({ display: "none" })};   
+
 `;
 const Arrow = styled.div`
     width:50px;
