@@ -15,17 +15,13 @@ const Container = styled.div`
 const Products = ({ cat, filters, sort }) => {
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
-    console.log(filters)
     useEffect(() => {
         const getProducts = async () => {
             try {
                 const res = await axios.get(cat
                     ? `http://localhost:5000/api/products?category=${cat}`
                     : "http://localhost:5000/api/products",
-                    {
-                        id: 1,
-                        img: "https://d3o2e4jr3mxnm3.cloudfront.net/Mens-Jake-Guitar-Vintage-Crusher-Tee_68382_1_lg.png"
-                    });
+                );
                 setProducts(res.data);
             } catch (err) {
                 console.log(err.message)
@@ -41,13 +37,33 @@ const Products = ({ cat, filters, sort }) => {
                 )
             )
         );
-        console.log(filteredProducts)
     }, [products, cat, filters]);
+    // useEffect(() => {
+    //     if (filteredProducts) {
+    //         if (sort === 'newest') {
+    //             setFilteredProducts(prevState => {
+    //                 [...prevState].sort((a, b) => a.createdAt - b.createdAt);
+    //             });
+    //         } else if (sort === 'asc') {
+    //             setFilteredProducts(prevState => {
+    //                 [...prevState].sort((a, b) => a.price - b.price);
+    //             });
+    //         } else {
+    //             setFilteredProducts(prevState => {
+    //                 [...prevState].sort((a, b) => b.price - a.price);
+    //             });
+    //         }
+    //     }
+    // }, [sort]);
     return (
         <Container>
-            {filteredProducts.map((item) => (
-                <Product item={item} key={item.id} />
-            ))}
+            {cat ? filteredProducts.map((item) => (
+                <Product item={item} key={item._id} />
+            )) : products
+                .slice(0, 8)
+                .map((item) => (
+                    <Product item={item} key={item._id} />
+                ))}
         </Container>
     )
 }
