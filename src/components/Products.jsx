@@ -37,19 +37,20 @@ const Products = ({ cat, filters, sort }) => {
                 )
             )
         );
+        console.log(filteredProducts)
     }, [products, cat, filters]);
     // useEffect(() => {
     //     if (filteredProducts) {
     //         if (sort === 'newest') {
-    //             setFilteredProducts(prevState => {
+    //             setFilteredProducts((prevState) => {
     //                 [...prevState].sort((a, b) => a.createdAt - b.createdAt);
     //             });
     //         } else if (sort === 'asc') {
-    //             setFilteredProducts(prevState => {
+    //             setFilteredProducts((prevState) => {
     //                 [...prevState].sort((a, b) => a.price - b.price);
     //             });
     //         } else {
-    //             setFilteredProducts(prevState => {
+    //             setFilteredProducts((prevState) => {
     //                 [...prevState].sort((a, b) => b.price - a.price);
     //             });
     //         }

@@ -1,6 +1,7 @@
 import { Badge } from '@material-ui/core';
 import { Search, ShoppingCartOutlined } from '@mui/icons-material';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { mobile } from '../responsive';
 
@@ -35,7 +36,7 @@ const SearchContainer = styled.div`
   align-items: center;
   margin-left: 25px;
   padding: 5px;
-  ${mobile({ marginLeft:"10px" })}
+  ${mobile({ marginLeft: "10px" })}
 
 `;
 
@@ -51,7 +52,7 @@ const Center = styled.div`
 
 const Logo = styled.h1`
   font-weight: bold;
-  ${mobile({ fontSize: "24px", marginLeft:"10px" })}
+  ${mobile({ fontSize: "24px", marginLeft: "10px" })}
 `;
 const Right = styled.div`
   flex: 1;
@@ -70,29 +71,29 @@ const MenuItem = styled.div`
 
 
 const Navbar = () => {
-    return (
-        <Container>
-            <Wrapper>
-                <Left>
-                    <Language>EN</Language>
-                    <SearchContainer>
-                        <Input placeholder="search" />
-                        <Search style={{ color: "gray", fontSize: "16px" }} />
-                    </SearchContainer>
-                </Left>
-                <Center><Logo>TUSHIBA.</Logo></Center>
-                <Right>
-                    <MenuItem>Register</MenuItem>
-                    <MenuItem>Sign In</MenuItem>
-                    <MenuItem>
-                        <Badge badgeContent={4} color="primary">
-                            <ShoppingCartOutlined />
-                        </Badge>
-                    </MenuItem>
-                </Right>
-            </Wrapper>
-        </Container>
-    )
+  return (
+    <Container>
+      <Wrapper>
+        <Left>
+          <Language>EN</Language>
+          <SearchContainer>
+            <Input placeholder="search" />
+            <Search style={{ color: "gray", fontSize: "16px" }} />
+          </SearchContainer>
+        </Left>
+        <Center><Logo><Link to='/'>TUSHIBA.</Link></Logo></Center>
+        <Right>
+          <MenuItem>Register</MenuItem>
+          <MenuItem>Sign In</MenuItem>
+          <MenuItem>
+            <Badge badgeContent={4} color="primary">
+              <ShoppingCartOutlined />
+            </Badge>
+          </MenuItem>
+        </Right>
+      </Wrapper>
+    </Container >
+  )
 }
 
 export default Navbar
