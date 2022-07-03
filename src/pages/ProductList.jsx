@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import Navbar from '../components/Navbar';
 import Announcement from '../components/Announcement';
@@ -46,6 +46,10 @@ const ProductList = () => {
     const cat = location.pathname.split('/')[2];
     const [filters, setFilters] = useState({});
     const [sort, setSort] = useState('newest');
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     const handleFilters = (e) => {
         const value = e.target.value;

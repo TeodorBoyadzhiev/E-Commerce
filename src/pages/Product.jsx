@@ -123,6 +123,7 @@ const Product = () => {
   const [size, setSize] = useState('');
   const dispatch = useDispatch();
   useEffect(() => {
+    window.scrollTo(0, 0);
     const getProduct = async () => {
       try {
         const res = await axios.get(`http://localhost:5000/api/products/find/${id}`);
