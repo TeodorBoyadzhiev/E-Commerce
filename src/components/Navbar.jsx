@@ -1,6 +1,7 @@
 import { Badge } from '@material-ui/core';
 import { Search, ShoppingCartOutlined } from '@mui/icons-material';
 import React from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -43,6 +44,7 @@ const SearchContainer = styled.div`
 
 const Input = styled.input`
   border: none;
+  border-bottom: ${props => props.isActive ? "1px solid black" : "none"};
   ${mobile({ width: "50px" })}
 `;
 
@@ -72,19 +74,24 @@ const MenuItem = styled.div`
 
 
 const Navbar = () => {
+  const [isActive, setIsActive] = useState(false);
   const quantity = useSelector(state => state.cart.quantity);
+
+  const handleStyle = () => {
+    setIsActive(() => !isActive);
+  }
   return (
     <Container>
       <Wrapper>
         <Left>
           <Language style={{ color: "black", fontWeight: "bold" }}>EN</Language>
-          <SearchContainer style={{ border: "none" }} >
-            <Input placeholder="Search" style={{ display: "flex", flexDirection: "end" }} />
-            <Search style={{ color: "gray", fontSize: "16px" }} />
-          </SearchContainer>
         </Left>
         <Center><Logo><Link to='/' style={{ textDecoration: "none", color: "black" }}>TUSHIBA.</Link></Logo></Center>
         <Right>
+          <SearchContainer style={{ border: "none" }} >
+            <Search onClick={handleStyle} style={{ color: "black", fontWeight: "bold", cursor: "pointer" }} />
+            <Input placeholder="Search" isActive={isActive} style={{ outline: "none", paddingBottom: "2px" }} />
+          </SearchContainer>
           <MenuItem><Link to='/register' style={{ textDecoration: "none", color: "black", fontWeight: "bold" }}>Register</Link></MenuItem>
           <MenuItem><Link to='/login' style={{ textDecoration: "none", color: "black", fontWeight: "bold" }}>Sign In</Link></MenuItem>
           <Link to="/cart" style={{ color: "black" }}>
