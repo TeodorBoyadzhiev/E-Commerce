@@ -1,14 +1,13 @@
 import { Badge } from '@material-ui/core';
 import { Search, ShoppingCartOutlined } from '@mui/icons-material';
-import React from 'react';
-import { useState } from 'react';
+import React, { useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { mobile } from '../responsive';
 
 const Container = styled.div`
-  height: 70px;
+  height: 50px;
   ${mobile({ height: "60px" })}
 `;
 
@@ -43,9 +42,14 @@ const SearchContainer = styled.div`
 `;
 
 const Input = styled.input`
-  border: none;
-  /* border-bottom: ${props => props.isActive ? "1px solid black" : "none"}; */
+    border:none;
+    outline:none;
+    transition: all 0.5s ease;
+    border-bottom: 0.7px solid transparent;
   ${mobile({ width: "50px" })}
+  &:focus {
+    border-bottom: 0.07px solid black;
+  }
 `;
 
 const Center = styled.div`
@@ -74,12 +78,11 @@ const MenuItem = styled.div`
 
 
 const Navbar = () => {
-  const [isActive, setIsActive] = useState(false);
+  const ref = useRef(null);
   const quantity = useSelector(state => state.cart.quantity);
 
-  const handleStyle = (e) => {
-    e.target.style.borderBottom = "1px solid black";
-    // setIsActive(() => !isActive);
+  const handleClick = () => {
+    ref.current.focus();
   }
   return (
     <Container>
@@ -90,8 +93,8 @@ const Navbar = () => {
         <Center><Logo><Link to='/' style={{ textDecoration: "none", color: "black" }}>TUSHIBA.</Link></Logo></Center>
         <Right>
           <SearchContainer style={{ border: "none" }} >
-            <Search onClick={handleStyle} style={{ color: "black", fontWeight: "bold", cursor: "pointer" }} />
-            <Input placeholder="Search" isActive={isActive} style={{ outline: "none", paddingBottom: "2px" }} />
+            <Search onClick={handleClick} style={{ color: "black", fontWeight: "bold", cursor: "pointer" }} />
+            <Input ref={ref} placeholder="Search" />
           </SearchContainer>
           <MenuItem><Link to='/register' style={{ textDecoration: "none", color: "black", fontWeight: "bold" }}>Register</Link></MenuItem>
           <MenuItem><Link to='/login' style={{ textDecoration: "none", color: "black", fontWeight: "bold" }}>Sign In</Link></MenuItem>
