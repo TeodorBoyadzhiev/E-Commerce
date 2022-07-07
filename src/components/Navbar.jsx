@@ -44,7 +44,7 @@ const SearchContainer = styled.div`
 
 const Input = styled.input`
   border: none;
-  border-bottom: ${props => props.isActive ? "1px solid black" : "none"};
+  /* border-bottom: ${props => props.isActive ? "1px solid black" : "none"}; */
   ${mobile({ width: "50px" })}
 `;
 
@@ -77,8 +77,9 @@ const Navbar = () => {
   const [isActive, setIsActive] = useState(false);
   const quantity = useSelector(state => state.cart.quantity);
 
-  const handleStyle = () => {
-    setIsActive(() => !isActive);
+  const handleStyle = (e) => {
+    e.target.style.borderBottom = "1px solid black";
+    // setIsActive(() => !isActive);
   }
   return (
     <Container>
