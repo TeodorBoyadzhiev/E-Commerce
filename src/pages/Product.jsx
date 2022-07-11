@@ -10,6 +10,7 @@ import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { addProduct } from '../redux/cartRedux';
 import { useDispatch } from 'react-redux';
+import { useRef } from 'react';
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -71,6 +72,10 @@ const FilterColor = styled.div`
   background-color: ${props => props.color};
   margin:0px 5px;
   cursor:pointer;
+  &.active {
+    border: 2px solid black;
+    padding: 2px;
+  };
 `;
 const FilterSize = styled.select`
   margin-left:10px;
@@ -117,7 +122,7 @@ const Button = styled.button`
 const Product = () => {
   const location = useLocation();
   const id = location.pathname.split('/')[2];
-  const [product, setProduct] = useState({ color: 'blue', size: 's' });
+  const [product, setProduct] = useState({ color: ['blue'], size: 's' });
   const [quantity, setQuantity] = useState(1);
   const [color, setColor] = useState('');
   const [size, setSize] = useState('');
@@ -141,50 +146,69 @@ const Product = () => {
     }
   }
 
+  const ref = useRef();
+  let cls = ' ';
+  const activeColor = (color, index) => {
+    const colors = ref.current.children;
+    for (let i = 0; i < colors.length; i += 1) {
+      colors[i].className = '' + colors[i].className.replace('active', '');
+      cls = ' ';
+    }
+    colors[index + 1].className += 'active';
+    cls = colors[index + 1].className;
+    setColor(color);
+  }
+
   const handleClick = () => {
-    dispatch(addProduct({ ...product, quantity, color, size }));
+    dispatch(addProduct({ ...product, color, quantity, size }));
   }
   return (
-    <Container>
-      <Navbar />
-      <Announcement />
-      <Wrapper>
-        <ImgContainer>
-          <Image src={product.img} />
-        </ImgContainer>
-        <InfoContainer>
-          <Title>{product.title}</Title>
-          <Desc>
-            {product.desc}
-          </Desc>
-          <Price>$ {product.price}</Price>
-          <FilterContainer>
-            <Filter>
-              <FilterTitle>Color</FilterTitle>
-              <FilterColor color={product.color[0]} key={product.color[0]} onClick={() => setColor(product.color[0])} />
-              <FilterColor color={product.color[1]} key={product.color[1]} onClick={() => setColor(product.color[1])} />
-              <FilterColor color={product.color[2]} key={product.color[2]} onClick={() => setColor(product.color[2])} />
-            </Filter>
-            <Filter>
-              <FilterTitle>Size</FilterTitle>
-              <FilterSize onChange={(e) => setSize(e.target.value)}>
-                <FilterSizeOption>{product.size}</FilterSizeOption>
-              </FilterSize>
-            </Filter>
-          </FilterContainer>
-          <AddContainer>
-            <AmountContainer>
-              <Remove onClick={() => handleQuantity('decrease')} style={{ cursor: "pointer" }} />
-              <Amount>{quantity}</Amount>
-              <Add onClick={() => handleQuantity('increase')} style={{ cursor: "pointer" }} />
-            </AmountContainer>
-            <Button onClick={handleClick}>ADD TO CART</Button>
-          </AddContainer>
-        </InfoContainer>
-      </Wrapper>
-      <Newsletter />
-      <Footer />
-    </Container>
+    <>
+      {product &&
+        <Container>
+          <Announcement />
+          <Navbar />
+          <Wrapper>
+            <ImgContainer>
+              <Image src={product.img} />
+            </ImgContainer>
+            <InfoContainer>
+              <Title>{product.title}</Title>
+              <Desc>
+                {product.desc}
+              </Desc>
+              <Price>$ {product.price}</Price>
+              <FilterContainer>
+                <Filter ref={ref}>
+                  <FilterTitle>Color</FilterTitle>
+                  {product.color.map((color, index) => {
+                    return <FilterColor className={cls} color={color} key={index} onClick={() => activeColor(color, index)} />
+                  })}
+                </Filter>
+                <Filter>
+                  <FilterTitle>Size</FilterTitle>
+                  <FilterSize onChange={(e) => setSize(e.target.value)}>
+                    {Object.values(product.size).map((size) => {
+                      return <FilterSizeOption>{size}</FilterSizeOption>
+                    })}
+                  </FilterSize>
+                </Filter>
+              </FilterContainer>
+              <AddContainer>
+                <AmountContainer>
+                  <Remove onClick={() => handleQuantity('decrease')} style={{ cursor: "pointer" }} />
+                  <Amount>{quantity}</Amount>
+                  <Add onClick={() => handleQuantity('increase')} style={{ cursor: "pointer" }} />
+                </AmountContainer>
+                <Button onClick={handleClick}>ADD TO CART</Button>
+              </AddContainer>
+            </InfoContainer>
+          </Wrapper>
+          <Newsletter />
+          <Footer />
+        </Container>
+      }
+    </>
   )
 }
 
