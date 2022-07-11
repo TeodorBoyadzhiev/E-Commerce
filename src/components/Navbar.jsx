@@ -49,6 +49,7 @@ const Input = styled.input`
     transition: all 0.5s ease;
     border-bottom: 0.7px solid transparent;
     width: 100%;
+    padding: 0;
   ${mobile({ width: "50px" })}
   &:focus {
     border-bottom-color: black;

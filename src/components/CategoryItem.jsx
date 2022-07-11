@@ -14,9 +14,7 @@ const Image = styled.img`
     width:100%;
     height:100%;
     object-fit:cover;
-    border: groove;
     ${mobile({ height: "30vh" })};   
-
 `;
 
 const Info = styled.div`
@@ -29,6 +27,7 @@ const Info = styled.div`
     flex-direction:column;
     align-items:center;
     justify-content:center;
+    
 `;
 
 const Title = styled.h1`
