@@ -73,7 +73,7 @@ const FilterColor = styled.div`
   margin:0px 5px;
   cursor:pointer;
   &.active {
-    border: 2px solid black;
+    border:${props => props.color === 'black' ? '2px solid gray' : '2px solid black'};
     padding: 2px;
   };
 `;
