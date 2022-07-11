@@ -37,18 +37,21 @@ const SearchContainer = styled.div`
   align-items: center;
   margin-left: 25px;
   padding: 5px;
+  width: 25%;
   ${mobile({ marginLeft: "10px" })}
 
 `;
 
 const Input = styled.input`
+    font-weight: bold;
     border:none;
     outline:none;
     transition: all 0.5s ease;
     border-bottom: 0.7px solid transparent;
+    width: 100%;
   ${mobile({ width: "50px" })}
   &:focus {
-    border-bottom: 0.07px solid black;
+    border-bottom-color: black;
   }
 `;
 
@@ -73,6 +76,9 @@ const MenuItem = styled.div`
   font-size: 14px;
   cursor: pointer;
   margin-left: 25px;
+  text-decoration: none;
+  color: black; 
+  font-weight: bold;
   ${mobile({ fontSize: "12px", marginLeft: "10px" })}
 `;
 
