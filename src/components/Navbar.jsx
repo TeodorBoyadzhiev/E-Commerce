@@ -1,8 +1,12 @@
+// Material-UI 
 import { Badge } from '@material-ui/core';
 import { Search, ShoppingCartOutlined } from '@mui/icons-material';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+// React
 import React, { useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+// Styling
 import styled from 'styled-components';
 import { mobile } from '../responsive';
 
@@ -105,6 +109,11 @@ const Navbar = () => {
           </SearchContainer>
           <MenuItem><Link to='/register' style={{ textDecoration: "none", color: "black", fontWeight: "bold" }}>Register</Link></MenuItem>
           <MenuItem><Link to='/login' style={{ textDecoration: "none", color: "black", fontWeight: "bold" }}>Sign In</Link></MenuItem>
+          <Link to="/" style={{ color: "black" }}>
+            <MenuItem>
+              <FavoriteBorderIcon />
+            </MenuItem>
+          </Link>
           <Link to="/cart" style={{ color: "black" }}>
             <MenuItem>
               <Badge badgeContent={quantity} color="primary">
