@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { mobile } from '../responsive';
+import BackButton from '../components/partials/BackButton';
 
 const Container = styled.div`
   width:100vw;
@@ -18,6 +19,7 @@ const Container = styled.div`
   justify-content:center;
 `;
 const Wrapper = styled.div`
+  position: relative;
   width:40%;
   padding:20px;
   background-color:white;
@@ -70,6 +72,7 @@ const Register = () => {
   return (
     <Container>
       <Wrapper>
+        <BackButton />
         <Title>CREATE AN ACCOUNT</Title>
         <Form>
           <Input

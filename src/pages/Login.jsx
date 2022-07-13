@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { login } from '../redux/apiCalls';
 import { mobile } from '../responsive';
 import { useSelector } from 'react-redux';
+import BackButton from '../components/partials/BackButton';
 
 const Container = styled.div`
   width:100vw;
@@ -18,8 +19,9 @@ const Container = styled.div`
   display:flex;
   align-items:center;
   justify-content:center;
-`;
+  `;
 const Wrapper = styled.div`
+  position: relative;
   width:25%;
   padding:20px;
   background-color:white;
@@ -80,6 +82,7 @@ const Login = () => {
   return (
     <Container>
       <Wrapper>
+      <BackButton />
         <Title>SIGN IN</Title>
         <Form>
           <Input
