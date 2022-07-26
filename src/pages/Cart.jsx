@@ -173,7 +173,7 @@ const Cart = () => {
                                 <Details>
                                     <ProductName><b>Product:</b> {product.title}</ProductName>
                                     <ProductId><b>ID:</b> 932131255</ProductId>
-                                    <ProductColor color={product.color} />
+                                    <ProductColor color={product.color.length > 0 ? product.color[0] : product.color} />
                                     <ProductSize><b>Size:</b> {product.size.length > 0 ? product.size.join(', ') : product.size}</ProductSize>
                                 </Details>
                             </ProductDetail>
