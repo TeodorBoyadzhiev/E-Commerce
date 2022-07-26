@@ -7,7 +7,10 @@ import styled from 'styled-components';
 
 //material-ui
 import { FavoriteBorderOutlined, SearchOutlined, ShoppingCartOutlined } from '@mui/icons-material';
+
+//redux
 import { addProduct } from '../redux/cartRedux';
+import { addProductWishlist } from '../redux/wishlistRedux';
 
 const Info = styled.div`
     opacity:0;
@@ -76,8 +79,11 @@ const Product = ({ item }) => {
     const dispatch = useDispatch();
 
     const addToCart = () => {
-        console.log(item)
-        dispatch(addProduct({ ...item, price: item.price }));
+        dispatch(addProduct({ ...item }));
+    }
+
+    const addToWishlist = () => {
+        dispatch(addProductWishlist({ ...item }))
     }
     return (
         <Container>
@@ -93,7 +99,7 @@ const Product = ({ item }) => {
                     </Link>
                 </Icon>
                 <Icon>
-                    <FavoriteBorderOutlined />
+                    <FavoriteBorderOutlined onClick={addToWishlist} />
                 </Icon>
             </Info>
         </Container>

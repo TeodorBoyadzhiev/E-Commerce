@@ -91,6 +91,7 @@ const MenuItem = styled.div`
 const Navbar = () => {
   const ref = useRef(null);
   const quantity = useSelector(state => state.cart.quantity);
+  const wishlistQuantity = useSelector(state => state.wishlist.quantity);
 
   const handleClick = () => {
     ref.current.focus();
@@ -111,7 +112,9 @@ const Navbar = () => {
           <MenuItem><Link to='/login' style={{ textDecoration: "none", color: "black", fontWeight: "bold" }}>Sign In</Link></MenuItem>
           <Link to="/wishlist" style={{ color: "black" }}>
             <MenuItem>
+            <Badge badgeContent={wishlistQuantity} color="primary">
               <FavoriteBorderIcon />
+            </Badge>
             </MenuItem>
           </Link>
           <Link to="/cart" style={{ color: "black" }}>
