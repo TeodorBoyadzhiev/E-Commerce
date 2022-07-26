@@ -146,6 +146,7 @@ const SummaryButton = styled.button`
 
 const Cart = () => {
     const cart = useSelector(state => state.cart);
+    console.log(cart.products)
     const [stripeToken, setStripeToken] = useState(null)
     const onToken = (token) => {
         setStripeToken(token);
@@ -173,16 +174,16 @@ const Cart = () => {
                                     <ProductName><b>Product:</b> {product.title}</ProductName>
                                     <ProductId><b>ID:</b> 932131255</ProductId>
                                     <ProductColor color={product.color} />
-                                    <ProductSize><b>Size:</b> {product.size}</ProductSize>
+                                    <ProductSize><b>Size:</b> {product.size.length > 0 ? product.size.join(', ') : product.size}</ProductSize>
                                 </Details>
                             </ProductDetail>
                             <PriceDetail>
                                 <ProductAmountContainer>
                                     <Add style={{ cursor: "pointer" }} />
-                                    <ProductAmount>{product.quantity}</ProductAmount>
+                                    <ProductAmount>{product.quantity ? product.quantity : 1}</ProductAmount>
                                     <Remove style={{ cursor: "pointer" }} />
                                 </ProductAmountContainer>
-                                <ProductPrice>$ {product.price * product.quantity}</ProductPrice>
+                                <ProductPrice>$ {product.quantity ? product.price * product.quantity : product.price}</ProductPrice>
                             </PriceDetail>
                         </Product>))
                         }
@@ -192,7 +193,7 @@ const Cart = () => {
                         <SummaryTitle>ORDER SUMMARY</SummaryTitle>
                         <SummaryItem>
                             <SummaryItemText>Subtotal</SummaryItemText>
-                            <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
+                            <SummaryItemPrice>$ {cart.total ? cart.total : cart.products.map(product => product.price)}</SummaryItemPrice>
                         </SummaryItem>
                         <SummaryItem>
                             <SummaryItemText>Estimated Shipping</SummaryItemText>
@@ -204,7 +205,7 @@ const Cart = () => {
                         </SummaryItem>
                         <SummaryItem type="total">
                             <SummaryItemText>Total</SummaryItemText>
-                            <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
+                            <SummaryItemPrice>$ {cart.total ? cart.total : cart.products.map(product => product.price)}</SummaryItemPrice>
                         </SummaryItem>
                         <StripeCheckout
                             name="Lama Shop"

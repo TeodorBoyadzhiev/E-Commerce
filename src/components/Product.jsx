@@ -1,7 +1,14 @@
-import { FavoriteBorderOutlined, SearchOutlined, ShoppingCartOutlined } from '@mui/icons-material';
 import React from 'react';
-import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
 import { Link } from "react-router-dom";
+
+// styles
+import styled from 'styled-components';
+
+//material-ui
+import { FavoriteBorderOutlined, SearchOutlined, ShoppingCartOutlined } from '@mui/icons-material';
+import { addProduct } from '../redux/cartRedux';
+
 const Info = styled.div`
     opacity:0;
     width:100%;
@@ -66,13 +73,19 @@ const Icon = styled.div`
 `;
 
 const Product = ({ item }) => {
+    const dispatch = useDispatch();
+
+    const addToCart = () => {
+        console.log(item)
+        dispatch(addProduct({ ...item, price: item.price }));
+    }
     return (
         <Container>
             <Circle />
             <Image src={item.img} />
             <Info>
                 <Icon>
-                    <ShoppingCartOutlined />
+                    <ShoppingCartOutlined onClick={addToCart} />
                 </Icon>
                 <Icon>
                     <Link to={`/product/${item._id}`}>
