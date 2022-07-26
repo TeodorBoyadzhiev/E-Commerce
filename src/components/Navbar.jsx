@@ -109,7 +109,7 @@ const Navbar = () => {
           </SearchContainer>
           <MenuItem><Link to='/register' style={{ textDecoration: "none", color: "black", fontWeight: "bold" }}>Register</Link></MenuItem>
           <MenuItem><Link to='/login' style={{ textDecoration: "none", color: "black", fontWeight: "bold" }}>Sign In</Link></MenuItem>
-          <Link to="/" style={{ color: "black" }}>
+          <Link to="/wishlist" style={{ color: "black" }}>
             <MenuItem>
               <FavoriteBorderIcon />
             </MenuItem>
