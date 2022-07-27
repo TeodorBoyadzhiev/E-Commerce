@@ -79,7 +79,7 @@ const Product = ({ item }) => {
     const dispatch = useDispatch();
 
     const addToCart = () => {
-        dispatch(addProduct({ ...item }));
+        dispatch(addProduct({ ...item, quantity: 1, color: item.color[0] }));
     }
 
     const addToWishlist = () => {

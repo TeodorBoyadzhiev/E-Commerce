@@ -124,8 +124,8 @@ const Product = () => {
   const id = location.pathname.split('/')[2];
   const [product, setProduct] = useState({ color: ['blue'], size: 's' });
   const [quantity, setQuantity] = useState(1);
-  const [color, setColor] = useState('');
-  const [size, setSize] = useState('');
+  const [color, setColor] = useState(product.color[0]);
+  const [size, setSize] = useState(product.size[0]);
   const dispatch = useDispatch();
   useEffect(() => {
     window.scrollTo(0, 0);

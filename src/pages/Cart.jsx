@@ -48,6 +48,7 @@ const TopText = styled.span`
 const Bottom = styled.div`
     display:flex;
     justify-content:space-between;
+    padding: 20px;
     ${mobile({ flexDirection: "column" })};   
 
 `;
@@ -58,6 +59,7 @@ const Info = styled.div`
 const Product = styled.div`
     display:flex;
     justify-content:space-between;
+    margin-top: 20px;
     ${mobile({ flexDirection: "column" })};   
 `;
 const ProductDetail = styled.div`
@@ -167,14 +169,15 @@ const Cart = () => {
                 </Top>
                 <Bottom>
                     <Info>
-                        {cart.products.map(product => (<Product>
+                        {cart.products.map(product => (<>
+                        <Product>
                             <ProductDetail>
                                 <Image src={product.img} />
                                 <Details>
                                     <ProductName><b>Product:</b> {product.title}</ProductName>
                                     <ProductId><b>ID:</b> 932131255</ProductId>
-                                    <ProductColor color={product.color.length > 0 ? product.color[0] : product.color} />
-                                    <ProductSize><b>Size:</b> {product.size.length > 0 ? product.size.join(', ') : product.size}</ProductSize>
+                                    <ProductColor color={product.color} />
+                                    <ProductSize><b>Size:</b> {product.size[1] ? product.size[0] : product.size}</ProductSize>
                                 </Details>
                             </ProductDetail>
                             <PriceDetail>
@@ -185,9 +188,11 @@ const Cart = () => {
                                 </ProductAmountContainer>
                                 <ProductPrice>$ {product.quantity ? product.price * product.quantity : product.price}</ProductPrice>
                             </PriceDetail>
-                        </Product>))
-                        }
+                        </Product>
                         <Hr />
+                        </>
+                        ))
+                        }
                     </Info>
                     <Summary>
                         <SummaryTitle>ORDER SUMMARY</SummaryTitle>
