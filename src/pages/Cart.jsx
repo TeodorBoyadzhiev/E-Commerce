@@ -5,7 +5,11 @@ import Footer from '../components/Footer';
 import styled from 'styled-components';
 import { Add, Remove } from '@mui/icons-material';
 import { mobile } from '../responsive';
+//state
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { incrProdQuantity } from '../redux/cartRedux';
+//payment
 import StripeCheckout from 'react-stripe-checkout';
 
 const KEY = process.env.REACT_APP_STRIPE;
@@ -148,7 +152,13 @@ const SummaryButton = styled.button`
 
 const Cart = () => {
     const cart = useSelector(state => state.cart);
-    console.log(cart.products)
+    const dispatch = useDispatch();
+    const [productQuantity, setProductQuantity] = useState(1);
+    const increseQuantity = () => {
+        setProductQuantity(productQuantity + 1);
+        dispatch(incrProdQuantity());
+    }
+
     const [stripeToken, setStripeToken] = useState(null)
     const onToken = (token) => {
         setStripeToken(token);
@@ -170,26 +180,26 @@ const Cart = () => {
                 <Bottom>
                     <Info>
                         {cart.products.map(product => (<>
-                        <Product>
-                            <ProductDetail>
-                                <Image src={product.img} />
-                                <Details>
-                                    <ProductName><b>Product:</b> {product.title}</ProductName>
-                                    <ProductId><b>ID:</b> 932131255</ProductId>
-                                    <ProductColor color={product.color} />
-                                    <ProductSize><b>Size:</b> {product.size[1] ? product.size[0] : product.size}</ProductSize>
-                                </Details>
-                            </ProductDetail>
-                            <PriceDetail>
-                                <ProductAmountContainer>
-                                    <Add style={{ cursor: "pointer" }} />
-                                    <ProductAmount>{product.quantity ? product.quantity : 1}</ProductAmount>
-                                    <Remove style={{ cursor: "pointer" }} />
-                                </ProductAmountContainer>
-                                <ProductPrice>$ {product.quantity ? product.price * product.quantity : product.price}</ProductPrice>
-                            </PriceDetail>
-                        </Product>
-                        <Hr />
+                            <Product key={product.id}>
+                                <ProductDetail>
+                                    <Image src={product.img} />
+                                    <Details>
+                                        <ProductName><b>Product:</b> {product.title}</ProductName>
+                                        <ProductId><b>ID:</b> 932131255</ProductId>
+                                        <ProductColor color={product.color} />
+                                        <ProductSize><b>Size:</b> {product.size[1] ? product.size[0] : product.size}</ProductSize>
+                                    </Details>
+                                </ProductDetail>
+                                <PriceDetail>
+                                    <ProductAmountContainer>
+                                        <Add onClick={increseQuantity} style={{ cursor: "pointer" }} />
+                                        <ProductAmount>{productQuantity}</ProductAmount>
+                                        <Remove style={{ cursor: "pointer" }} />
+                                    </ProductAmountContainer>
+                                    <ProductPrice>$ {product.quantity ? product.price * product.quantity : product.price}</ProductPrice>
+                                </PriceDetail>
+                            </Product>
+                            <Hr />
                         </>
                         ))
                         }
