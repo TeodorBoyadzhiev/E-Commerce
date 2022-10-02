@@ -90,7 +90,7 @@ const Wishlist = () => {
                             )) :
                             (<EmptyWrapper>
                                 <HeartBrokenIcon style={{ width: '60px', height: '60px', marginBottom: '20px' }} />
-                                <Empty>You have no items on your wish list.</Empty>
+                                <Empty>You have no items on your wishlist.</Empty>
                                 <Button>Back to shop</Button>
                             </EmptyWrapper>
                             )
