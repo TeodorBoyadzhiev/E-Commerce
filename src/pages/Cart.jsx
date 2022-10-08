@@ -154,9 +154,14 @@ const Cart = () => {
     const cart = useSelector(state => state.cart);
     const dispatch = useDispatch();
     const [productQuantity, setProductQuantity] = useState(1);
-    const increseQuantity = () => {
-        setProductQuantity(productQuantity + 1);
-        dispatch(incrProdQuantity());
+    const adjustQuantity = (type) => {
+        if (type === 'increase') {
+            setProductQuantity(productQuantity + 1);
+            dispatch(incrProdQuantity('increase'));
+        } else if (type === 'decrease' && productQuantity > 1) {
+            setProductQuantity(productQuantity - 1);
+            dispatch(incrProdQuantity('decrease'));
+        }
     }
 
     const [stripeToken, setStripeToken] = useState(null)
@@ -192,9 +197,9 @@ const Cart = () => {
                                 </ProductDetail>
                                 <PriceDetail>
                                     <ProductAmountContainer>
-                                        <Add onClick={increseQuantity} style={{ cursor: "pointer" }} />
+                                        <Add onClick={() => adjustQuantity('increase')} style={{ cursor: "pointer" }} />
                                         <ProductAmount>{productQuantity}</ProductAmount>
-                                        <Remove style={{ cursor: "pointer" }} />
+                                        <Remove onClick={() => adjustQuantity('decrease')} style={{ cursor: "pointer" }} />
                                     </ProductAmountContainer>
                                     <ProductPrice>$ {product.quantity ? product.price * product.quantity : product.price}</ProductPrice>
                                 </PriceDetail>
