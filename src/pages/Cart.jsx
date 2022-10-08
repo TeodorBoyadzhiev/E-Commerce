@@ -4,6 +4,7 @@ import Announcement from '../components/Announcement';
 import Footer from '../components/Footer';
 import styled from 'styled-components';
 import { Add, Remove } from '@mui/icons-material';
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import { mobile } from '../responsive';
 //state
 import { useSelector } from 'react-redux';
@@ -89,6 +90,16 @@ const ProductColor = styled.div`
     cursor:pointer;
 `;
 const ProductSize = styled.span``;
+const RemoveProduct = styled.button`
+    display:flex;
+    align-items:center;
+    padding:0;
+    margin-top:30px;   
+    cursor:pointer;
+    border:none;
+    background-color:transparent;
+    color:black;
+`;
 const PriceDetail = styled.div`
     flex:1;
     display:flex;
@@ -193,6 +204,7 @@ const Cart = () => {
                                         <ProductId><b>ID:</b> 932131255</ProductId>
                                         <ProductColor color={product.color} />
                                         <ProductSize><b>Size:</b> {product.size[1] ? product.size[0] : product.size}</ProductSize>
+                                        <RemoveProduct><DeleteOutlinedIcon />Remove</RemoveProduct>
                                     </Details>
                                 </ProductDetail>
                                 <PriceDetail>
