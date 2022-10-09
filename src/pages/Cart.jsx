@@ -164,14 +164,11 @@ const SummaryButton = styled.button`
 const Cart = () => {
     const cart = useSelector(state => state.cart);
     const dispatch = useDispatch();
-    const [productQuantity, setProductQuantity] = useState(1);
-    const adjustQuantity = (type) => {
+    const adjustQuantity = (type, id) => {
         if (type === 'increase') {
-            setProductQuantity(productQuantity + 1);
-            dispatch(incrProdQuantity('increase'));
-        } else if (type === 'decrease' && productQuantity > 1) {
-            setProductQuantity(productQuantity - 1);
-            dispatch(incrProdQuantity('decrease'));
+            dispatch(incrProdQuantity({ type: 'increase', id }));
+        } else if (type === 'decrease') {
+            dispatch(incrProdQuantity({ type: 'decrease', id }));
         }
     }
     const deleteProduct = (id) => {
@@ -212,9 +209,9 @@ const Cart = () => {
                                 </ProductDetail>
                                 <PriceDetail>
                                     <ProductAmountContainer>
-                                        <Add onClick={() => adjustQuantity('increase')} style={{ cursor: "pointer" }} />
-                                        <ProductAmount>{productQuantity}</ProductAmount>
-                                        <Remove onClick={() => adjustQuantity('decrease')} style={{ cursor: "pointer" }} />
+                                        <Add onClick={() => adjustQuantity('increase', product._id)} style={{ cursor: "pointer" }} />
+                                        <ProductAmount>{product.quantity}</ProductAmount>
+                                        <Remove onClick={() => adjustQuantity('decrease', product._id)} style={{ cursor: "pointer" }} />
                                     </ProductAmountContainer>
                                     <ProductPrice>$ {product.quantity ? product.price * product.quantity : product.price}</ProductPrice>
                                 </PriceDetail>
