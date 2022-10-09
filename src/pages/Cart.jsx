@@ -9,7 +9,7 @@ import { mobile } from '../responsive';
 //state
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { incrProdQuantity } from '../redux/cartRedux';
+import { incrProdQuantity, removeProduct } from '../redux/cartRedux';
 //payment
 import StripeCheckout from 'react-stripe-checkout';
 
@@ -174,6 +174,9 @@ const Cart = () => {
             dispatch(incrProdQuantity('decrease'));
         }
     }
+    const deleteProduct = (id) => {
+        dispatch(removeProduct(id));
+    }
 
     const [stripeToken, setStripeToken] = useState(null)
     const onToken = (token) => {
@@ -204,7 +207,7 @@ const Cart = () => {
                                         <ProductId><b>ID:</b> 932131255</ProductId>
                                         <ProductColor color={product.color} />
                                         <ProductSize><b>Size:</b> {product.size[1] ? product.size[0] : product.size}</ProductSize>
-                                        <RemoveProduct><DeleteOutlinedIcon />Remove</RemoveProduct>
+                                        <RemoveProduct onClick={() => deleteProduct(product._id)}><DeleteOutlinedIcon />Remove</RemoveProduct>
                                     </Details>
                                 </ProductDetail>
                                 <PriceDetail>
