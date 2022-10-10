@@ -8,6 +8,8 @@ const wishlistSlice = createSlice({
     },
     reducers: {
         addProductWishlist: (state, action) => {
+            let productIndex = state.products.findIndex(product => product._id === action.payload._id);
+            if(productIndex !== -1) {return;}
             state.quantity += 1;
             state.products.push(action.payload);
         }
