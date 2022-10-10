@@ -177,7 +177,7 @@ const Product = () => {
               <Desc>
                 {product.desc}
               </Desc>
-              <Price>$ {product.price}</Price>
+              <Price>$ {product.price * quantity}</Price>
               <FilterContainer>
                 <Filter ref={ref}>
                   <FilterTitle>Color</FilterTitle>
