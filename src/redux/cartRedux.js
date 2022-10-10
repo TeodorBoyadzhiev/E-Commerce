@@ -9,6 +9,12 @@ const cartSlice = createSlice({
     },
     reducers: {
         addProduct: (state, action) => {
+            let prodIndex = state.products.findIndex(product => product._id === action.payload._id);
+            if (prodIndex !== -1) {
+                state.quantity += action.payload.quantity;
+                state.products[prodIndex].quantity += 1;
+                return;
+            }
             state.quantity += action.payload.quantity;
             state.products.push(action.payload);
             state.total += action.payload.price * action.payload.quantity;
@@ -18,7 +24,7 @@ const cartSlice = createSlice({
             if (action.payload.type === 'increase') {
                 state.products[prodIndex].quantity += 1;
                 state.quantity += 1;
-                state.total += Number(state.products[prodIndex].price); 
+                state.total += Number(state.products[prodIndex].price);
             } else {
                 if (state.products[prodIndex].quantity > 1) {
                     state.products[prodIndex].quantity -= 1;
