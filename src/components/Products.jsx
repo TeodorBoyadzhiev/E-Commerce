@@ -37,25 +37,22 @@ const Products = ({ cat, filters, sort }) => {
                 )
             )
         );
-        console.log(filteredProducts)
-    }, [products, cat, filters]);
-    // useEffect(() => {
-    //     if (filteredProducts) {
-    //         if (sort === 'newest') {
-    //             setFilteredProducts((prevState) => {
-    //                 [...prevState].sort((a, b) => a.createdAt - b.createdAt);
-    //             });
-    //         } else if (sort === 'asc') {
-    //             setFilteredProducts((prevState) => {
-    //                 [...prevState].sort((a, b) => a.price - b.price);
-    //             });
-    //         } else {
-    //             setFilteredProducts((prevState) => {
-    //                 [...prevState].sort((a, b) => b.price - a.price);
-    //             });
-    //         }
-    //     }
-    // }, [sort]);
+    }, [products, cat, filters, sort]);
+    useEffect(() => {
+        if (sort === 'newest') {
+            setFilteredProducts((prevState) => {
+                return prevState.length > 0 ? prevState.sort((a, b) => a.createdAt - b.createdAt) : [];
+            });
+        } else if (sort === 'asc') {
+            setFilteredProducts((prevState) => {
+                return prevState.length > 0 ? prevState.sort((a, b) => a.price - b.price) : [];
+            });
+        } else if (sort === 'desc') {
+            setFilteredProducts((prevState) => {
+                return prevState.length > 0 ? prevState.sort((a, b) => b.price - a.price) : [];
+            });
+        }
+    }, [filters, sort]);
     return (
         <Container>
             {cat ? filteredProducts.map((item) => (
