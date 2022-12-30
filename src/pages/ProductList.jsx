@@ -36,10 +36,19 @@ const FilterText = styled.span`
 const Select = styled.select`
     padding:10px;
     margin-right:20px;
+    background-color: rgb(244, 244, 245);
+    cursor: pointer;
+    border: none;
+    border-radius: 50%;
+    :hover {
+        background-color: rgb(219, 219, 220);
+    }
     ${mobile({ margin: "10px 0px" })};   
 
 `;
-const Option = styled.option``;
+const Option = styled.option`
+    background-color: white;
+`;
 
 const ProductList = () => {
     const location = useLocation();
