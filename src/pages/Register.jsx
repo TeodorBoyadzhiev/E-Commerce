@@ -31,14 +31,32 @@ const Title = styled.h1`
   font-weight:300;
 `;
 const Form = styled.form`
-  display:flex;
-  flex-wrap:wrap;
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+`;
+const InputField = styled.div`
+  display: flex;
+  position: relative;
+  margin: 0px 10px 20px 0px;
 `;
 const Input = styled.input`
   flex:1;
   min-width:40%;
-  margin:20px 10px 0px 0px;
+  margin: 0px 10px 20px 0px;
   padding:10px;
+  &:focus + Label{
+      transform: translate(5px, -7px);
+      color: black;
+      font-size: 0.75em;
+      background-color: white;
+      transition: 0.2s ease-in-out;
+    }
+`;
+const Label = styled.label`
+  position: absolute;
+  transform: translate(11px, 3px);
+  color: rgb(155, 155, 155);
+  transition: 0.2s ease-in-out;
 `;
 const Agreement = styled.span`
   font-size:12px;
@@ -75,35 +93,35 @@ const Register = () => {
         <BackButton />
         <Title>CREATE AN ACCOUNT</Title>
         <Form>
-          <Input
-            placeholder="name"
-            onChange={(e) => setName(e.target.value)}
-          />
-          <Input
-            placeholder="last name"
-            onChange={(e) => setLastName(e.target.value)}
-          />
-          <Input
-            placeholder="username"
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <Input
-            placeholder="email"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <Input
-            placeholder="password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <Input
-            placeholder="confirm password"
-            onChange={(e) => setConfirmPass(e.target.value)}
-          />
+          <InputField>
+            <Input />
+            <Label htmlFor="name">Name</Label>
+          </InputField>
+          <InputField>
+            <Input />
+            <Label htmlFor="Last name">Last name</Label>
+          </InputField>
+          <InputField>
+            <Input />
+            <Label htmlFor="Username">Username</Label>
+          </InputField>
+          <InputField>
+            <Input />
+            <Label htmlFor="Email">Email</Label>
+          </InputField>
+          <InputField>
+            <Input />
+            <Label htmlFor="Password">Password</Label>
+          </InputField>
+          <InputField>
+            <Input />
+            <Label htmlFor="Confirm password">Confirm Password</Label>
+          </InputField>
+          <Button onClick={handleRegister}>CREATE</Button>
           <Agreement>
             By creating an account, I consent to the processing of my personal
             data in accordance with the <b>PRIVACY POLICY</b>
           </Agreement>
-          <Button onClick={handleRegister}>CREATE</Button>
         </Form>
       </Wrapper>
     </Container>
