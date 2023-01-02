@@ -48,7 +48,6 @@ const Input = styled.input`
   min-width:40%;
   margin: 0px 10px 20px 0px;
   padding:10px;
-  outline: inset;
   &:focus + Label,
   &:valid + Label {
       transform: translate(5px, -7px);
