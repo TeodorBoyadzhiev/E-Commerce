@@ -44,7 +44,8 @@ const Input = styled.input`
   min-width:40%;
   margin: 0px 10px 20px 0px;
   padding:10px;
-  &:focus + Label{
+  &:focus + Label,
+  &:valid + Label {
       transform: translate(5px, -7px);
       color: black;
       font-size: 0.75em;
@@ -54,6 +55,7 @@ const Input = styled.input`
 `;
 const Label = styled.label`
   position: absolute;
+  cursor: text;
   transform: translate(11px, 3px);
   color: rgb(155, 155, 155);
   transition: 0.2s ease-in-out;
@@ -94,28 +96,28 @@ const Register = () => {
         <Title>CREATE AN ACCOUNT</Title>
         <Form>
           <InputField>
-            <Input />
+            <Input id="name" required/>
             <Label htmlFor="name">Name</Label>
           </InputField>
           <InputField>
-            <Input />
+            <Input id="Last name" required/>
             <Label htmlFor="Last name">Last name</Label>
           </InputField>
           <InputField>
-            <Input />
+            <Input id="Username" required/>
             <Label htmlFor="Username">Username</Label>
           </InputField>
           <InputField>
-            <Input />
+            <Input id="Email" required/>
             <Label htmlFor="Email">Email</Label>
           </InputField>
           <InputField>
-            <Input />
+            <Input id="Password" required/>
             <Label htmlFor="Password">Password</Label>
           </InputField>
           <InputField>
-            <Input />
-            <Label htmlFor="Confirm password">Confirm Password</Label>
+            <Input id="Confirm Password" required/>
+            <Label htmlFor="Confirm Password">Confirm Password</Label>
           </InputField>
           <Button onClick={handleRegister}>CREATE</Button>
           <Agreement>
