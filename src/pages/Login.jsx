@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { login } from '../redux/apiCalls';
 import { mobile } from '../responsive';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+
 import BackButton from '../components/partials/BackButton';
 
 const Container = styled.div`
@@ -36,13 +38,33 @@ const Form = styled.form`
   display:flex;
   flex-direction:column;
 `;
+const InputField = styled.div`
+  display: flex;
+  position: relative;
+  margin: 0px 10px 20px 0px;
+`;
 const Input = styled.input`
   flex:1;
   min-width:40%;
-  margin:10px 0px;
+  margin: 0px 10px 20px 0px;
   padding:10px;
+  outline: inset;
+  &:focus + Label,
+  &:valid + Label {
+      transform: translate(5px, -7px);
+      color: black;
+      font-size: 0.75em;
+      background-color: white;
+      transition: 0.2s ease-in-out;
+    }
 `;
-
+const Label = styled.label`
+  position: absolute;
+  cursor: text;
+  transform: translate(11px, 3px);
+  color: rgb(155, 155, 155);
+  transition: 0.2s ease-in-out;
+`;
 const Button = styled.button`
   width:40%;
   border:none;
@@ -56,14 +78,13 @@ const Button = styled.button`
     cursor:not-allowed;
   }
 `;
-
-const Link = styled.div`
-    margin: 5px 0px;
-    font-size:12px;
-    text-decoration:underline;
-    cursor:pointer;
-`;
-
+const LinkStyles = {
+  margin: '5px 0px',
+  fontSize: '12px',
+  textDecoration: 'none',
+  color: 'rgb(155,155,155)',
+  cursor: 'pointer'
+};
 const Error = styled.span`
   color:red;
 `;
@@ -82,21 +103,27 @@ const Login = () => {
   return (
     <Container>
       <Wrapper>
-      <BackButton />
+        <BackButton />
         <Title>SIGN IN</Title>
         <Form>
-          <Input
-            placeholder="username"
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <Input
-            placeholder="password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <InputField>
+            <Input
+              id="Username"
+              onChange={(e) => setUsername(e.target.value)}
+              required />
+            <Label htmlFor="Username">Username</Label>
+          </InputField>
+          <InputField>
+            <Input
+              id="Password"
+              onChange={(e) => setPassword(e.target.value)}
+              required />
+            <Label htmlFor="Password">Password</Label>
+          </InputField>
           <Button onClick={handleLogin} disabled={isFetching}>LOGIN</Button>
           {error && <Error>Something went wrong...</Error>}
-          <Link>DO NOT REMMEMBER YOUR PASSWORD?</Link>
-          <Link>CREATE A NEW ACCOUNT</Link>
+          <Link to='/register' style={LinkStyles}>DO NOT REMMEMBER YOUR PASSWORD?</Link>
+          <Link to='/register' style={LinkStyles}>CREATE A NEW ACCOUNT</Link>
         </Form>
       </Wrapper>
     </Container>
