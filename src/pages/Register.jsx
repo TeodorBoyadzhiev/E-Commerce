@@ -146,19 +146,25 @@ const Register = () => {
           </InputField>
           <InputField hasError={errors.email ? true : false}>
             <Input
-            id="email" {...register('email', { required: 'This filed is required', pattern: {value: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-z]+\.(com|bg|net)$/, message: 'This email is invalid'}})} required />
+              id="email"
+              {...register('email', { required: 'This filed is required', pattern: {value: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-z]+\.(com|bg|net)$/, message: 'This email is invalid'}})}
+              required />
             <Label htmlFor="email">Email</Label>
             {errors.email ? <Error>{errors.email.message}</Error> : ''}
           </InputField>
           <InputField hasError={errors.password ? true : false}>
             <Input
-            id="password" {...register('password', { required: 'This filed is required', minLength: {value: 5, message: 'Required at least 5 charcters'} })} required />
+              id="password"
+              {...register('password', { required: 'This filed is required', minLength: {value: 5, message: 'Required at least 5 charcters'} })}
+              required />
             <Label htmlFor="password">Password</Label>
             {errors.password ? <Error>{errors.password.message}</Error> : ''}
           </InputField>
           <InputField hasError={errors.confirmPassword ? true : false}>
             <Input
-            id="confirmPassword" {...register('confirmPassword', { required: 'This filed is required', minLength: {value: 5, message: 'Required at least 5 charcters'} })} required />
+              id="confirmPassword"
+              {...register('confirmPassword', { required: 'This filed is required', minLength: {value: 5, message: 'Required at least 5 charcters'} })}
+              required />
             <Label htmlFor="confirmPassword">Confirm Password</Label>
             {errors.confirmPassword ? <Error>{errors.confirmPassword.message}</Error> : ''}
           </InputField>
