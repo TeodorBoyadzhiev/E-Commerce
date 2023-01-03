@@ -25,12 +25,14 @@ const Container = styled.div`
 const Wrapper = styled.div`
   position: relative;
   width:25%;
-  padding:20px;
+  padding:40px 20px 20px 30px;
   background-color:white;
   ${mobile({ width: "75%" })};   
 
 `;
 const Title = styled.h1`
+  position: absolute;
+  top: -37px;
   font-size:24px;
   font-weight:300;
 `;
