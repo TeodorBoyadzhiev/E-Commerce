@@ -13,6 +13,7 @@ import ReCAPTCHA from 'react-google-recaptcha';
 //util
 import BackButton from '../components/partials/BackButton';
 import { useEffect } from 'react';
+import { useScrollTrigger } from '@mui/material';
 
 const Container = styled.div`
   width:100vw;
@@ -33,6 +34,7 @@ const Wrapper = styled.div`
   width:35%;
   padding:40px 20px 20px 30px;
   background-color:white;
+  border-radius: 40px 0px;
   ${mobile({ width: "75%" })};   
 
 `;
@@ -90,25 +92,28 @@ const Button = styled.button`
 `;
 const Recaptcha = styled.div`
   margin: 20px;
-  display: ${props=> props.showRecaptcha ? 'block' : 'none'};
+  display: ${props => props.showRecaptcha ? 'block' : 'none'};
 `;
 const Error = styled.span`
   color: red;
 `;
 
 const Register = () => {
-  const reRef = useRef();
   const [showRecaptcha, setShowRecaptcha] = useState(false);
-  const { register, handleSubmit, formState: { errors, submitCount, isSubmitSuccessful }, unregister } = useForm({
+  const { register, handleSubmit, formState, formState: { errors, submitCount }, unregister, watch } = useForm({
     mode: 'onChange',
     reValidateMode: 'onChange',
     defaultValues: {
       username: '',
       email: '',
       password: '',
-      confirmPassword: ''
+      confirmPassword: '',
+      recaptcha: 'recaptcha'
     }
   });
+
+  const reRef = useRef();
+
   const handleRegister = async (formValues) => {
     try {
       const username = formValues.username;
@@ -122,14 +127,12 @@ const Register = () => {
       const res = await axios.post('http://localhost:5000/api/auth/register', { username, email, password, token });
     } catch (err) {
       console.log(err)
-      console.log(err.response.data)
+      // console.log(err.response.data)
     }
   }
-  useEffect(() => {
-    if(submitCount === 2) {
-      setShowRecaptcha(true);
-    }
-  }, [submitCount]);
+
+  useEffect(() => { submitCount === 2 && setShowRecaptcha(true); }, [submitCount]);
+
   return (
     <Container>
       <Wrapper>
@@ -144,7 +147,7 @@ const Register = () => {
               hasError={errors.username ? true : false}
               required />
             <Label htmlFor="username">Username</Label>
-            {errors.username ? <Error>{errors.username.message}</Error> : ''}
+            {errors.username && <Error>{errors.username.message}</Error>}
           </InputField>
           <InputField>
             <Input
@@ -154,7 +157,7 @@ const Register = () => {
               hasError={errors.email ? true : false}
               required />
             <Label htmlFor="email">Email</Label>
-            {errors.email ? <Error>{errors.email.message}</Error> : ''}
+            {errors.email && <Error>{errors.email.message}</Error>}
           </InputField>
           <InputField>
             <Input
@@ -164,23 +167,37 @@ const Register = () => {
               hasError={errors.password ? true : false}
               required />
             <Label htmlFor="password">Password</Label>
-            {errors.password ? <Error>{errors.password.message}</Error> : ''}
+            {errors.password && <Error>{errors.password.message}</Error>}
           </InputField>
           <InputField>
             <Input
               id="confirmPassword"
               autoComplete='off'
-              {...register('confirmPassword', { required: 'This filed is required', minLength: { value: 5, message: 'Required at least 5 charcters' } })}
+              {...register('confirmPassword', 
+              { 
+              required: 'This filed is required', 
+              validate: (value) => { 
+                if (watch('password') !== value) {
+                return "Passwords do not match!";
+              }
+              }})}
               hasError={errors.confirmPassword ? true : false}
               required />
             <Label htmlFor="confirmPassword">Confirm Password</Label>
-            {errors.confirmPassword ? <Error>{errors.confirmPassword.message}</Error> : ''}
+            {errors.confirmPassword && <Error>{errors.confirmPassword.message}</Error>}
           </InputField>
-          <Recaptcha showRecaptcha={showRecaptcha} {...register('recaptcha', {required: 'This field is required'})}>
-            <ReCAPTCHA sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY} size="normal" onChange={() => unregister('recaptcha')} ref={reRef}/>
+          <Recaptcha
+            showRecaptcha={showRecaptcha}
+            {...register('recaptcha', { 
+            validate: () => { 
+              if(submitCount > 1 && formState.defaultValues.recaptcha) {
+              return 'This field is required' 
+            }
+            }})}>
+            <ReCAPTCHA sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY} size="normal" onChange={() => unregister('recaptcha')} ref={reRef} />
             {errors.recaptcha && <Error>{errors.recaptcha.message}</Error>}
           </Recaptcha>
-          <Button type='submit' {...errors.length && 'disabled'}>CREATE</Button>
+          <Button type='submit'>CREATE</Button>
           <Agreement>
             By creating an account, I consent to the processing of my personal
             data in accordance with the <b>PRIVACY POLICY</b>
