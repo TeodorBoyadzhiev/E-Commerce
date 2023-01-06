@@ -8,12 +8,11 @@ import { mobile } from '../responsive';
 //react hooks
 import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
+import { useEffect } from 'react';
 //reCaptcha
 import ReCAPTCHA from 'react-google-recaptcha';
 //util
 import BackButton from '../components/partials/BackButton';
-import { useEffect } from 'react';
-import { useScrollTrigger } from '@mui/material';
 
 const Container = styled.div`
   width:100vw;
