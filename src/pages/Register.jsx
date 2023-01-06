@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 //api
 import axios from 'axios';
 //styling
@@ -6,9 +6,13 @@ import styled from 'styled-components';
 //responsive
 import { mobile } from '../responsive';
 //react hooks
+import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
+//reCaptcha
+import ReCAPTCHA from 'react-google-recaptcha';
 //util
 import BackButton from '../components/partials/BackButton';
+import { useEffect } from 'react';
 
 const Container = styled.div`
   width:100vw;
@@ -47,22 +51,19 @@ const InputField = styled.div`
   display: flex;
   flex-wrap: wrap;
   position: relative;
-  flex-basis: 48%;
+  flex-basis: 37%;
   margin: 0px 10px 20px 0px;
-  & > input {
-    border: ${props=>props.hasError ? '2px solid red' : ''};
-    outline: ${props=>props.hasError ? 'red' : ''};
-  }
 `;
 const Input = styled.input`
-  flex:1;
   min-width:40%;
-  padding:10px;
+  padding: 10px 40px 10px 10px;
   height: fit-content;
+  border: ${props => props.hasError && '2px solid red'};
+  outline: ${props => props.hasError && 'red'};
   &:focus + Label,
   &:valid + Label {
     transform: translate(5px, -7px);
-    color: black;;
+    color: ${props => props.hasError ? 'red' : 'black'};
     font-size: 0.75em;
     background-color: white;
     transition: 0.2s ease-in-out;
@@ -87,17 +88,21 @@ const Button = styled.button`
   color:white;
   cursor:pointer;
 `;
+const Recaptcha = styled.div`
+  margin: 20px;
+  display: ${props=> props.showRecaptcha ? 'block' : 'none'};
+`;
 const Error = styled.span`
   color: red;
 `;
 
 const Register = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const reRef = useRef();
+  const [showRecaptcha, setShowRecaptcha] = useState(false);
+  const { register, handleSubmit, formState: { errors, submitCount, isSubmitSuccessful }, unregister } = useForm({
     mode: 'onChange',
     reValidateMode: 'onChange',
     defaultValues: {
-      firstName: '',
-      lastName: '',
       username: '',
       email: '',
       password: '',
@@ -109,66 +114,73 @@ const Register = () => {
       const username = formValues.username;
       const email = formValues.email;
       const password = formValues.password;
-      const res = await axios.post('http://localhost:5000/api/auth/register', { username, email, password });
+      const token = await reRef.current.getValue();
+      reRef.current.reset();
+      console.log(token)
+
+      reRef.current.reset();
+      const res = await axios.post('http://localhost:5000/api/auth/register', { username, email, password, token });
     } catch (err) {
       console.log(err)
+      console.log(err.response.data)
     }
   }
+  useEffect(() => {
+    if(submitCount === 2) {
+      setShowRecaptcha(true);
+    }
+  }, [submitCount]);
   return (
     <Container>
       <Wrapper>
         <BackButton />
         <Title>CREATE AN ACCOUNT</Title>
         <Form onSubmit={handleSubmit(handleRegister)} noValidate>
-          <InputField hasError={errors.firstName ? true : false}>
-            <Input
-              id="firstName" 
-              {...register('firstName', { required: 'This filed is required', minLength: {value: 11, message: 'Required at least 11 charcters'} })} 
-              required />
-              <Label htmlFor="firstName">First Name</Label>
-              {errors.firstName && <Error>{errors.firstName.message}</Error>}
-          </InputField>
-          <InputField hasError={errors.lastName ? true : false}>
-            <Input
-              id="lastName"
-              {...register('lastName', { required: 'This filed is required', minLength: {value: 7, message: 'Required at least 7 charcters'} })}
-              required />
-            <Label htmlFor="lastName">Last name</Label>
-            {errors.lastName && <Error>{errors.lastName.message}</Error>}
-          </InputField>
-          <InputField hasError={errors.username ? true : false}>
+          <InputField>
             <Input
               id="username"
-              {...register('username', { required: 'This filed is required', minLength: {value: 4, message: 'Required at least 4 charcters'} })}
+              autoComplete='off'
+              {...register('username', { required: 'This filed is required', minLength: { value: 4, message: 'Required at least 4 charcters' } })}
+              hasError={errors.username ? true : false}
               required />
-              <Label htmlFor="username">Username</Label>
-              {errors.username ? <Error>{errors.username.message}</Error> : ''}
+            <Label htmlFor="username">Username</Label>
+            {errors.username ? <Error>{errors.username.message}</Error> : ''}
           </InputField>
-          <InputField hasError={errors.email ? true : false}>
+          <InputField>
             <Input
               id="email"
-              {...register('email', { required: 'This filed is required', pattern: {value: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-z]+\.(com|bg|net)$/, message: 'This email is invalid'}})}
+              autoComplete='off'
+              {...register('email', { required: 'This filed is required', pattern: { value: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-z]+\.(com|bg|net)$/, message: 'This email is invalid' } })}
+              hasError={errors.email ? true : false}
               required />
             <Label htmlFor="email">Email</Label>
             {errors.email ? <Error>{errors.email.message}</Error> : ''}
           </InputField>
-          <InputField hasError={errors.password ? true : false}>
+          <InputField>
             <Input
               id="password"
-              {...register('password', { required: 'This filed is required', minLength: {value: 5, message: 'Required at least 5 charcters'} })}
+              autoComplete='off'
+              {...register('password', { required: 'This filed is required', minLength: { value: 5, message: 'Required at least 5 charcters' } })}
+              hasError={errors.password ? true : false}
               required />
             <Label htmlFor="password">Password</Label>
             {errors.password ? <Error>{errors.password.message}</Error> : ''}
           </InputField>
-          <InputField hasError={errors.confirmPassword ? true : false}>
+          <InputField>
             <Input
               id="confirmPassword"
-              {...register('confirmPassword', { required: 'This filed is required', minLength: {value: 5, message: 'Required at least 5 charcters'} })}
+              autoComplete='off'
+              {...register('confirmPassword', { required: 'This filed is required', minLength: { value: 5, message: 'Required at least 5 charcters' } })}
+              hasError={errors.confirmPassword ? true : false}
               required />
             <Label htmlFor="confirmPassword">Confirm Password</Label>
             {errors.confirmPassword ? <Error>{errors.confirmPassword.message}</Error> : ''}
           </InputField>
-          <Button type='submit'>CREATE</Button>
+          <Recaptcha showRecaptcha={showRecaptcha} {...register('recaptcha', {required: 'This field is required'})}>
+            <ReCAPTCHA sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY} size="normal" onChange={() => unregister('recaptcha')} ref={reRef}/>
+            {errors.recaptcha && <Error>{errors.recaptcha.message}</Error>}
+          </Recaptcha>
+          <Button type='submit' {...errors.length && 'disabled'}>CREATE</Button>
           <Agreement>
             By creating an account, I consent to the processing of my personal
             data in accordance with the <b>PRIVACY POLICY</b>
