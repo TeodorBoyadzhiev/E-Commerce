@@ -9,10 +9,14 @@ import { mobile } from '../responsive';
 import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+// router
+import { useNavigate } from "react-router-dom";
 //reCaptcha
 import ReCAPTCHA from 'react-google-recaptcha';
 //util
 import BackButton from '../components/partials/BackButton';
+import { login } from '../redux/apiCalls';
 
 const Container = styled.div`
   width:100vw;
@@ -111,6 +115,8 @@ const Register = () => {
     }
   });
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const reRef = useRef();
 
   const handleRegister = async (formValues) => {
@@ -124,6 +130,11 @@ const Register = () => {
 
       reRef.current.reset();
       const res = await axios.post('http://localhost:5000/api/auth/register', { username, email, password, token });
+
+      //login after successful register
+      const log = await login(dispatch, {username, password});
+      return navigate('/');
+
     } catch (err) {
       console.log(err)
       // console.log(err.response.data)
