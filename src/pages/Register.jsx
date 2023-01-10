@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 //api
 import axios from 'axios';
+import { login } from '../redux/apiCalls';
 //styling
 import styled from 'styled-components';
 //responsive
@@ -10,13 +11,13 @@ import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import useRegisterFields from '../components/forms/useRegisterFields';
 // router
 import { useNavigate } from "react-router-dom";
 //reCaptcha
 import ReCAPTCHA from 'react-google-recaptcha';
-//util
-import BackButton from '../components/partials/BackButton';
-import { login } from '../redux/apiCalls';
+//components
+import BackButton from '../components/common/BackButton';
 
 const Container = styled.div`
   width:100vw;
@@ -117,6 +118,7 @@ const Register = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const fields = useRegisterFields(watch, errors);
   const reRef = useRef();
 
   const handleRegister = async (formValues) => {
@@ -132,8 +134,12 @@ const Register = () => {
       const res = await axios.post('http://localhost:5000/api/auth/register', { username, email, password, token });
 
       //login after successful register
-      const log = await login(dispatch, {username, password});
-      return navigate('/');
+      try {
+        const log = await login(dispatch, { username, password });
+        return navigate('/');
+      } catch (err) {
+        console.log(err);
+      }
 
     } catch (err) {
       console.log(err)
@@ -150,60 +156,34 @@ const Register = () => {
         <Title>CREATE AN ACCOUNT</Title>
         <Form onSubmit={handleSubmit(handleRegister)} noValidate>
           <InputField>
-            <Input
-              id="username"
-              autoComplete='off'
-              {...register('username', { required: 'This filed is required', minLength: { value: 4, message: 'Required at least 4 charcters' } })}
-              hasError={errors.username ? true : false}
-              required />
+            <Input {...fields.username} {...register('username', fields.username.validation)} />
             <Label htmlFor="username">Username</Label>
             {errors.username && <Error>{errors.username.message}</Error>}
           </InputField>
           <InputField>
-            <Input
-              id="email"
-              autoComplete='off'
-              {...register('email', { required: 'This filed is required', pattern: { value: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-z]+\.(com|bg|net)$/, message: 'This email is invalid' } })}
-              hasError={errors.email ? true : false}
-              required />
+            <Input {...fields.email} {...register('email', fields.email.validation)} />
             <Label htmlFor="email">Email</Label>
             {errors.email && <Error>{errors.email.message}</Error>}
           </InputField>
           <InputField>
-            <Input
-              id="password"
-              autoComplete='off'
-              {...register('password', { required: 'This filed is required', minLength: { value: 5, message: 'Required at least 5 charcters' } })}
-              hasError={errors.password ? true : false}
-              required />
+            <Input {...fields.password} {...register('password', fields.password.validation)} />
             <Label htmlFor="password">Password</Label>
             {errors.password && <Error>{errors.password.message}</Error>}
           </InputField>
           <InputField>
-            <Input
-              id="confirmPassword"
-              autoComplete='off'
-              {...register('confirmPassword', 
-              { 
-              required: 'This filed is required', 
-              validate: (value) => { 
-                if (watch('password') !== value) {
-                return "Passwords do not match!";
-              }
-              }})}
-              hasError={errors.confirmPassword ? true : false}
-              required />
+            <Input {...fields.confirmPassword} {...register('confirmPassword', fields.confirmPassword.validation)} />
             <Label htmlFor="confirmPassword">Confirm Password</Label>
             {errors.confirmPassword && <Error>{errors.confirmPassword.message}</Error>}
           </InputField>
           <Recaptcha
             showRecaptcha={showRecaptcha}
-            {...register('recaptcha', { 
-            validate: () => { 
-              if(submitCount > 1 && formState.defaultValues.recaptcha) {
-              return 'This field is required' 
-            }
-            }})}>
+            {...register('recaptcha', {
+              validate: () => {
+                if (submitCount > 1 && formState.defaultValues.recaptcha) {
+                  return 'This field is required'
+                }
+              }
+            })}>
             <ReCAPTCHA sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY} size="normal" onChange={() => unregister('recaptcha')} ref={reRef} />
             {errors.recaptcha && <Error>{errors.recaptcha.message}</Error>}
           </Recaptcha>
