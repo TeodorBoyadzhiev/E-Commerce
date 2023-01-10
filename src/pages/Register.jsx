@@ -5,7 +5,7 @@ import { login } from '../redux/apiCalls';
 //styling
 import styled from 'styled-components';
 //responsive
-import { mobile } from '../responsive';
+import { mobile, mobileLarge, mobileMedium } from '../responsive';
 //react hooks
 import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
@@ -40,6 +40,8 @@ const Wrapper = styled.div`
   background-color:white;
   border-radius: 40px 0px;
   ${mobile({ width: "75%" })};   
+  ${mobileMedium({ width: "75%" })};   
+  ${mobileLarge({ width: "75%", transition: '1s ease-in-out' })};   
 
 `;
 const Title = styled.h1`
@@ -52,6 +54,8 @@ const Form = styled.form`
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+    ${mobile({width: 'auto', margin: '0 30px'})}
+    ${mobileMedium({width: 'auto', margin: '0 30px'})}
 `;
 const InputField = styled.div`
   display: flex;
@@ -59,6 +63,8 @@ const InputField = styled.div`
   position: relative;
   flex-basis: 37%;
   margin: 0px 10px 20px 0px;
+  ${mobileMedium({margin: '0px 0px 20px 0px'})}
+
 `;
 const Input = styled.input`
   min-width:40%;
@@ -74,6 +80,9 @@ const Input = styled.input`
     background-color: white;
     transition: 0.2s ease-in-out;
   }
+  ${mobile({padding: '10px 20px 10px 10px'})}
+  ${mobileMedium({padding: '10px 20px 10px 10px'})}
+  ${mobileLarge({transition: '1s ease-in-out'})}
 `;
 const Label = styled.label`
   position: absolute;
@@ -92,6 +101,7 @@ const Button = styled.button`
   padding:15px 20px;
   background-color:teal;
   color:white;
+  margin: 0 25px;
   cursor:pointer;
 `;
 const Recaptcha = styled.div`
