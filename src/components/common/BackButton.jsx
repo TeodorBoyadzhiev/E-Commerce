@@ -1,6 +1,11 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+// styles
+import styled from 'styled-components';
+//responsive
+import {mobile } from '../../responsive';
+//hooks
 import { useNavigate } from "react-router-dom";
+// Material UI
 import { ArrowLeftOutlined } from '@mui/icons-material';
 
 const Button = styled.button`
@@ -22,6 +27,7 @@ const Button = styled.button`
         cursor: pointer;
         border: 1px solid gray;
     }
+    ${mobile({display: 'none'})}
 `;
 
 
