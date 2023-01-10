@@ -2,7 +2,7 @@ import React from 'react';
 // styles
 import styled from 'styled-components';
 //responsive
-import {mobile } from '../../responsive';
+import {mobile, mobileMedium, mobileLarge } from '../../responsive';
 //hooks
 import { useNavigate } from "react-router-dom";
 // Material UI
@@ -22,12 +22,14 @@ const Button = styled.button`
     border: none;
     font-size: inherit;
     border: 1px solid white;
-
+    
     &:hover{
         cursor: pointer;
         border: 1px solid gray;
     }
     ${mobile({display: 'none'})}
+    ${mobileMedium({display: 'none'})}
+    ${mobileLarge({left: '-170px', transition: '1s ease-in-out'})}
 `;
 
 
