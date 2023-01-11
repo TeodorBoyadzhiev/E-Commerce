@@ -12,7 +12,7 @@ import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import useRegisterFields from '../components/forms/useRegisterFields';
-// router
+//router
 import { useNavigate } from "react-router-dom";
 //reCaptcha
 import ReCAPTCHA from 'react-google-recaptcha';
@@ -137,8 +137,6 @@ const Register = () => {
       const email = formValues.email;
       const password = formValues.password;
       const token = await reRef.current.getValue();
-      reRef.current.reset();
-      console.log(token)
 
       reRef.current.reset();
       const res = await axios.post('http://localhost:5000/api/auth/register', { username, email, password, token });
