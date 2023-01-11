@@ -1,12 +1,19 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux';
-import styled from 'styled-components';
+//api
 import { login } from '../redux/apiCalls';
+//styling
+import styled from 'styled-components';
+//responsive
 import { mobile } from '../responsive';
+//react hooks
+import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import { useForm } from 'react-hook-form';
+import useLoginFields from '../components/forms/useLoginFields';
+//router
 import { Link } from 'react-router-dom';
-
-import BackButton from '../components/partials/BackButton';
+//components
+import BackButton from '../components/common/BackButton';
 
 const Container = styled.div`
   width:100vw;
@@ -27,6 +34,7 @@ const Wrapper = styled.div`
   width:25%;
   padding:40px 20px 20px 30px;
   background-color:white;
+  border-radius: 40px 0px;
   ${mobile({ width: "75%" })};   
 
 `;
@@ -42,22 +50,25 @@ const Form = styled.form`
 `;
 const InputField = styled.div`
   display: flex;
+  flex-wrap: wrap;
   position: relative;
+  flex-basis: 37%;
   margin: 0px 10px 20px 0px;
 `;
 const Input = styled.input`
-  flex:1;
   min-width:40%;
-  margin: 0px 10px 20px 0px;
-  padding:10px;
+  padding: 10px 40px 10px 10px;
+  height: fit-content;
+  border: ${props => props.hasError && '2px solid red'};
+  outline: ${props => props.hasError && 'red'};
   &:focus + Label,
   &:valid + Label {
-      transform: translate(5px, -7px);
-      color: black;
-      font-size: 0.75em;
-      background-color: white;
-      transition: 0.2s ease-in-out;
-    }
+    transform: translate(5px, -7px);
+    color: ${props => props.hasError ? 'red' : 'black'};
+    font-size: 0.75em;
+    background-color: white;
+    transition: 0.2s ease-in-out;
+  }
 `;
 const Label = styled.label`
   position: absolute;
@@ -91,37 +102,49 @@ const Error = styled.span`
 `;
 
 const Login = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const dispatch = useDispatch();
   const { isFetching, error } = useSelector((state) => state.user);
 
-  const handleLogin = (e) => {
-    e.preventDefault();
+  const { register, handleSubmit, formState: { errors } } = useForm({
+    mode: 'onChange',
+    reValidateMode: 'onChange',
+    defaultValues: {
+      username: '',
+      password: ''
+    }
+  });
 
-    login(dispatch, { username, password })
+  const dispatch = useDispatch();
+  const fields = useLoginFields(errors);
+
+  const handleLogin = (formValues) => {
+    try {
+      const username = formValues.username;
+      const password = formValues.password;
+
+      login(dispatch, { username, password });
+
+    } catch (err) {
+      console.log(err)
+    }
+
   }
   return (
     <Container>
       <Wrapper>
         <BackButton />
         <Title>SIGN IN</Title>
-        <Form>
+        <Form onSubmit={handleSubmit(handleLogin)} noValidate>
           <InputField>
-            <Input
-              id="Username"
-              onChange={(e) => setUsername(e.target.value)}
-              required />
-            <Label htmlFor="Username">Username</Label>
+            <Input {...fields.username} {...register('username', fields.username.validation)} />
+            <Label htmlFor="username">Username</Label>
+            {errors.username && <Error>{errors.username.message}</Error>}
           </InputField>
           <InputField>
-            <Input
-              id="Password"
-              onChange={(e) => setPassword(e.target.value)}
-              required />
-            <Label htmlFor="Password">Password</Label>
+            <Input {...fields.password} {...register('password', fields.password.validation)} />
+            <Label htmlFor="password">Password</Label>
+            {errors.password && <Error>{errors.password.message}</Error>}
           </InputField>
-          <Button onClick={handleLogin} disabled={isFetching}>LOGIN</Button>
+          <Button disabled={isFetching}>LOGIN</Button>
           {error && <Error>Something went wrong...</Error>}
           <Link to='/register' style={LinkStyles}>DO NOT REMMEMBER YOUR PASSWORD?</Link>
           <Link to='/register' style={LinkStyles}>CREATE A NEW ACCOUNT</Link>
