@@ -138,9 +138,8 @@ const Register = () => {
       const password = formValues.password;
       const token = await reRef.current.getValue();
 
-      reRef.current.reset();
-      const res = await axios.post('http://localhost:5000/api/auth/register', { username, email, password, token });
-
+      await axios.post('http://localhost:5000/api/auth/register', { username, email, password, token });
+      
       //login after successful register
       try {
         const log = await login(dispatch, { username, password });
@@ -148,6 +147,8 @@ const Register = () => {
       } catch (err) {
         console.log(err);
       }
+      
+      return reRef.current.reset();
 
     } catch (err) {
       console.log(err)

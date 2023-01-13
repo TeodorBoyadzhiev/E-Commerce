@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 //api
 import { login } from '../redux/apiCalls';
 //styling
@@ -14,6 +14,8 @@ import useLoginFields from '../components/forms/useLoginFields';
 import { Link } from 'react-router-dom';
 //components
 import BackButton from '../components/common/BackButton';
+//reCaptcha
+import ReCAPTCHA from 'react-google-recaptcha';
 
 const Container = styled.div`
   width:100vw;
@@ -47,10 +49,13 @@ const Title = styled.h1`
 const Form = styled.form`
   display:flex;
   flex-direction:column;
+  align-items: center;
+  justify-content: center;
 `;
 const InputField = styled.div`
   display: flex;
   flex-wrap: wrap;
+  flex-direction: column;
   position: relative;
   flex-basis: 37%;
   margin: 0px 10px 20px 0px;
@@ -77,6 +82,10 @@ const Label = styled.label`
   color: rgb(155, 155, 155);
   transition: 0.2s ease-in-out;
 `;
+const Recaptcha = styled.div`
+  margin: 20px;
+  display: ${props => props.showRecaptcha ? 'block' : 'none'};
+`;
 const Button = styled.button`
   width:40%;
   border:none;
@@ -102,32 +111,40 @@ const Error = styled.span`
 `;
 
 const Login = () => {
-  const { isFetching, error } = useSelector((state) => state.user);
-
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const { register, unregister, handleSubmit, formState, formState: { errors, submitCount } } = useForm({
     mode: 'onChange',
     reValidateMode: 'onChange',
     defaultValues: {
       username: '',
-      password: ''
+      password: '',
+      recaptcha: 'recaptcha'
     }
   });
 
+  const [showRecaptcha, setShowRecaptcha] = useState(false);
   const dispatch = useDispatch();
   const fields = useLoginFields(errors);
+  const reRef = useRef();
 
-  const handleLogin = (formValues) => {
+  const { isFetching, error } = useSelector((state) => state.user);
+
+  const handleLogin = async (formValues) => {
     try {
       const username = formValues.username;
       const password = formValues.password;
+      const token = await reRef.current.getValue();
 
-      login(dispatch, { username, password });
+      login(dispatch, { username, password, token });
+
+      return reRef.current.reset();
 
     } catch (err) {
       console.log(err)
     }
-
   }
+
+  useEffect(() => { submitCount === 2 && setShowRecaptcha(true); }, [submitCount]);
+
   return (
     <Container>
       <Wrapper>
@@ -144,6 +161,18 @@ const Login = () => {
             <Label htmlFor="password">Password</Label>
             {errors.password && <Error>{errors.password.message}</Error>}
           </InputField>
+          <Recaptcha
+            showRecaptcha={showRecaptcha}
+            {...register('recaptcha', {
+              validate: () => {
+                if (submitCount > 1 && formState.defaultValues.recaptcha) {
+                  return 'This field is required'
+                }
+              }
+            })}>
+            <ReCAPTCHA sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY} size="normal" onChange={() => unregister('recaptcha')} ref={reRef} />
+            {errors.recaptcha && <Error>{errors.recaptcha.message}</Error>}
+          </Recaptcha>
           <Button disabled={isFetching}>LOGIN</Button>
           {error && <Error>Something went wrong...</Error>}
           <Link to='/register' style={LinkStyles}>DO NOT REMMEMBER YOUR PASSWORD?</Link>
