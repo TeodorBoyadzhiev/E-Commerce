@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import useLoginFields from '../components/forms/useLoginFields';
 //router
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 //components
 import BackButton from '../components/common/BackButton';
 //reCaptcha
@@ -117,7 +117,7 @@ const Login = () => {
     defaultValues: {
       username: '',
       password: '',
-      recaptcha: 'recaptcha'
+      recaptcha: ''
     }
   });
 
@@ -125,18 +125,21 @@ const Login = () => {
   const dispatch = useDispatch();
   const fields = useLoginFields(errors);
   const reRef = useRef();
-
+  const navigate = useNavigate();
+  const { state , pathname } = useLocation();
   const { isFetching, error } = useSelector((state) => state.user);
-
+  
   const handleLogin = async (formValues) => {
     try {
       const username = formValues.username;
       const password = formValues.password;
       const token = await reRef.current.getValue();
-
-      login(dispatch, { username, password, token });
-
-      return reRef.current.reset();
+      reRef.current.reset();
+      
+      await login(dispatch, { username, password, token });
+      
+      const direction = state ? pathname : "/";
+      navigate(direction);
 
     } catch (err) {
       console.log(err)
@@ -165,7 +168,7 @@ const Login = () => {
             showRecaptcha={showRecaptcha}
             {...register('recaptcha', {
               validate: () => {
-                if (submitCount > 1 && formState.defaultValues.recaptcha) {
+                if (submitCount > 1 && formState.defaultValues.recaptcha === '') {
                   return 'This field is required'
                 }
               }

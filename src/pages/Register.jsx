@@ -125,7 +125,7 @@ const Register = () => {
       recaptcha: 'recaptcha'
     }
   });
-
+  
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const fields = useRegisterFields(watch, errors);
@@ -188,7 +188,7 @@ const Register = () => {
             showRecaptcha={showRecaptcha}
             {...register('recaptcha', {
               validate: () => {
-                if (submitCount > 1 && formState.defaultValues.recaptcha) {
+                if (submitCount > 1 && formState.defaultValues.recaptcha === '') {
                   return 'This field is required'
                 }
               }
