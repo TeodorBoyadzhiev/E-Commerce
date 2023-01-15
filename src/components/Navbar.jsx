@@ -11,7 +11,7 @@ import styled from 'styled-components';
 import { mobile } from '../responsive';
 
 const Container = styled.div`
-  height: 50px;
+  background: white;
   ${mobile({ height: "60px" })}
 `;
 
@@ -110,16 +110,16 @@ const Navbar = () => {
           </SearchContainer>
           <MenuItem><Link to='/register' style={{ textDecoration: "none", color: "black", fontWeight: "bold" }}>Register</Link></MenuItem>
           <MenuItem><Link to='/login' style={{ textDecoration: "none", color: "black", fontWeight: "bold" }}>Sign In</Link></MenuItem>
-          <Link to="/wishlist" style={{ color: "black" }}>
+          <Link to="/wishlist" state={{ fromSpecificPage: true }} style={{ color: "black" }}>
             <MenuItem>
-            <Badge badgeContent={wishlistQuantity} color="primary">
-              <FavoriteBorderIcon />
-            </Badge>
+              <Badge overlap="rectangular" badgeContent={wishlistQuantity} color="primary">
+                <FavoriteBorderIcon />
+              </Badge>
             </MenuItem>
           </Link>
           <Link to="/cart" style={{ color: "black" }}>
             <MenuItem>
-              <Badge badgeContent={quantity} color="primary">
+              <Badge overlap="rectangular" badgeContent={quantity} color="primary">
                 <ShoppingCartOutlined />
               </Badge>
             </MenuItem>

@@ -172,7 +172,6 @@ const Cart = () => {
     const onToken = (token) => {
         setStripeToken(token);
     }
-    console.log('dasdas')
     return (
         <Container>
             <Navbar />
