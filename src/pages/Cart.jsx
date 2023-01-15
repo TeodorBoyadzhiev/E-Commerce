@@ -31,7 +31,6 @@ const Top = styled.div`
     justify-content:space-between;
     padding:20px;
 `;
-
 const TopButton = styled.button`
     padding:10px;
     font-weight:600;
@@ -40,7 +39,6 @@ const TopButton = styled.button`
     background-color:${(props) => props.type === "filled" ? "black" : "transparent"};
     color:${(props) => props.type === "filled" && "white"};
 `;
-
 const TopTexts = styled.div`
   ${mobile({ display: "none" })};   
 
@@ -60,7 +58,6 @@ const Bottom = styled.div`
 const Info = styled.div`
     flex:3;
 `;
-
 const Product = styled.div`
     display:flex;
     justify-content:space-between;
@@ -107,7 +104,6 @@ const PriceDetail = styled.div`
     align-items:center;
     justify-content:center;
 `;
-
 const ProductAmountContainer = styled.div`
     display:flex;
     align-items:center;
@@ -125,13 +121,11 @@ const ProductPrice = styled.div`
     ${mobile({ marginBottom: "20px" })};   
 
 `;
-
 const Hr = styled.hr`
     background-color:#eee;
     border:none;
     height:1px;
 `;
-
 const Summary = styled.div`
     flex:1;
     border:0.5px solid lightgray;
@@ -139,7 +133,6 @@ const Summary = styled.div`
     padding:20px;
     height:50vh;
 `;
-
 const SummaryTitle = styled.h1`
     font-weight:200;
 `;

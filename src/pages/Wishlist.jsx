@@ -1,12 +1,19 @@
 import React from 'react';
+//redux
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+//state
+import { removeProduct } from '../redux/wishlistRedux';
+//style
 import styled from 'styled-components';
+//components
 import Announcement from '../components/Announcement';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Newsletter from '../components/Newsletter';
 //material-ui
 import HeartBrokenIcon from '@mui/icons-material/HeartBroken';
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 //responsive
 import { mobile } from '../responsive';
 
@@ -14,7 +21,6 @@ const Container = styled.div`
     height:100%;
     width: 100%;
 `;
-
 const Wrapper = styled.div`
     padding: 20px;
 `;
@@ -45,6 +51,16 @@ const ProductColor = styled.div`
     cursor:pointer;
 `;
 const ProductSize = styled.span``;
+const RemoveProduct = styled.button`
+    display:flex;
+    align-items:center;
+    padding:0;
+    margin-top:30px;   
+    cursor:pointer;
+    border:none;
+    background-color:transparent;
+    color:black;
+`;
 const EmptyWrapper = styled.div`
     height: 70vh;
     display:flex;
@@ -64,10 +80,13 @@ const Button = styled.button`
 
 `;
 
-
-
 const Wishlist = () => {
     const wishlist = useSelector(state => state.wishlist);
+    const dispatch = useDispatch();
+
+    const deleteProduct = (id) => {
+        dispatch(removeProduct(id));
+    }
     return (
         <Container>
             <Navbar />
@@ -85,6 +104,7 @@ const Wishlist = () => {
                                         <ProductId><b>ID:</b> 932131255</ProductId>
                                         <ProductColor color={product.color[1] ? product.color[0] : product.color} />
                                         <ProductSize><b>Size:</b> {product.size[1] ? product.size.join(', ') : product.size}</ProductSize>
+                                        <RemoveProduct onClick={() => deleteProduct(product._id)}><DeleteOutlinedIcon />Remove</RemoveProduct>
                                     </Details>
                                 </Product>
                             )) :
