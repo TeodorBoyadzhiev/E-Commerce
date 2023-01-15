@@ -142,7 +142,7 @@ const Register = () => {
       
       //login after successful register
       try {
-        const log = await login(dispatch, { username, password });
+        await login(dispatch, { username, password });
         return navigate('/');
       } catch (err) {
         console.log(err);

@@ -1,9 +1,10 @@
+import React, { useEffect, useState } from 'react';
+//api
 import axios from 'axios';
-import React from 'react';
-import { useEffect, useState } from 'react';
+//styling
 import styled from 'styled-components';
-
-import { categories, popularProducts } from '../data';
+// import { categories, popularProducts } from '../data';
+//components
 import Product from './Product';
 
 const Container = styled.div`
