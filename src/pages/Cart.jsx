@@ -165,6 +165,7 @@ const Cart = () => {
     const onToken = (token) => {
         setStripeToken(token);
     }
+
     return (
         <Container>
             <Navbar />
@@ -211,7 +212,7 @@ const Cart = () => {
                         <SummaryTitle>ORDER SUMMARY</SummaryTitle>
                         <SummaryItem>
                             <SummaryItemText>Subtotal</SummaryItemText>
-                            <SummaryItemPrice>$ {cart.total ? cart.total : cart.products.map(product => product.price)}</SummaryItemPrice>
+                            <SummaryItemPrice>$ {cart.total ? cart.total : 0}</SummaryItemPrice>
                         </SummaryItem>
                         <SummaryItem>
                             <SummaryItemText>Estimated Shipping</SummaryItemText>
@@ -223,7 +224,7 @@ const Cart = () => {
                         </SummaryItem>
                         <SummaryItem type="total">
                             <SummaryItemText>Total</SummaryItemText>
-                            <SummaryItemPrice>$ {cart.total ? cart.total : cart.products.map(product => product.price)}</SummaryItemPrice>
+                            <SummaryItemPrice>$ {cart.total ? cart.total : 0}</SummaryItemPrice>
                         </SummaryItem>
                         <StripeCheckout
                             name="Lama Shop"
