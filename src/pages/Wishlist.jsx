@@ -11,9 +11,9 @@ import Announcement from '../components/Announcement';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Newsletter from '../components/Newsletter';
+import RemoveButton from '../components/common/RemoveButton';
 //material-ui
 import HeartBrokenIcon from '@mui/icons-material/HeartBroken';
-import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 //responsive
 import { mobile } from '../responsive';
 
@@ -51,16 +51,6 @@ const ProductColor = styled.div`
     cursor:pointer;
 `;
 const ProductSize = styled.span``;
-const RemoveProduct = styled.button`
-    display:flex;
-    align-items:center;
-    padding:0;
-    margin-top:30px;   
-    cursor:pointer;
-    border:none;
-    background-color:transparent;
-    color:black;
-`;
 const EmptyWrapper = styled.div`
     height: 70vh;
     display:flex;
@@ -96,15 +86,15 @@ const Wishlist = () => {
                 <Products>
                     {
                         wishlist.products.length ?
-                            wishlist.products.map((product) => (
-                                <Product key={product.id}>
+                            wishlist.products.map((product,index) => (
+                                <Product key={index}>
                                     <Image src={product.img} />
                                     <Details>
                                         <ProductName><b>Product:</b> {product.title}</ProductName>
                                         <ProductId><b>ID:</b> 932131255</ProductId>
                                         <ProductColor color={product.color[1] ? product.color[0] : product.color} />
                                         <ProductSize><b>Size:</b> {product.size[1] ? product.size.join(', ') : product.size}</ProductSize>
-                                        <RemoveProduct onClick={() => deleteProduct(product._id)}><DeleteOutlinedIcon />Remove</RemoveProduct>
+                                        <RemoveButton handleClick={() => deleteProduct(product._id)} />
                                     </Details>
                                 </Product>
                             )) :

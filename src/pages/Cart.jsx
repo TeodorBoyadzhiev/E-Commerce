@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
+//components
 import Navbar from '../components/Navbar';
 import Announcement from '../components/Announcement';
 import Footer from '../components/Footer';
+import RemoveButton from '../components/common/RemoveButton';
+//styling
 import styled from 'styled-components';
-import { Add, Remove } from '@mui/icons-material';
-import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import { mobile } from '../responsive';
+// MUI
+import { Add, Remove } from '@mui/icons-material';
 //state
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
@@ -87,16 +90,6 @@ const ProductColor = styled.div`
     cursor:pointer;
 `;
 const ProductSize = styled.span``;
-const RemoveProduct = styled.button`
-    display:flex;
-    align-items:center;
-    padding:0;
-    margin-top:30px;   
-    cursor:pointer;
-    border:none;
-    background-color:transparent;
-    color:black;
-`;
 const PriceDetail = styled.div`
     flex:1;
     display:flex;
@@ -188,7 +181,7 @@ const Cart = () => {
                 </Top>
                 <Bottom>
                     <Info>
-                        {cart.products.map(product => (<>
+                        {cart.products.map((product, index) => (<React.Fragment key={index}>
                             <Product key={product.id}>
                                 <ProductDetail>
                                     <Image src={product.img} />
@@ -197,7 +190,7 @@ const Cart = () => {
                                         <ProductId><b>ID:</b> 932131255</ProductId>
                                         <ProductColor color={product.color} />
                                         <ProductSize><b>Size:</b> {product.size[1] ? product.size[0] : product.size}</ProductSize>
-                                        <RemoveProduct onClick={() => deleteProduct(product._id)}><DeleteOutlinedIcon />Remove</RemoveProduct>
+                                        <RemoveButton handleClick={() => deleteProduct(product._id)} />
                                     </Details>
                                 </ProductDetail>
                                 <PriceDetail>
@@ -210,7 +203,7 @@ const Cart = () => {
                                 </PriceDetail>
                             </Product>
                             <Hr />
-                        </>
+                        </React.Fragment>
                         ))
                         }
                     </Info>
