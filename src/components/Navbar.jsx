@@ -6,6 +6,9 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import React, { useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+//state
+import { logout } from '../redux/userRedux';
 // Styling
 import styled from 'styled-components';
 import { mobile } from '../responsive';
@@ -72,6 +75,7 @@ const Logo = styled.h1`
 const Right = styled.div`
   flex: 1;
   display: flex;
+  gap: 20px;
   align-items: center;
   justify-content: flex-end;
   ${mobile({ flex: 2, justifyContent: "center" })}
@@ -91,25 +95,39 @@ const MenuItem = styled.div`
 const Navbar = () => {
   const ref = useRef(null);
   const quantity = useSelector(state => state.cart.quantity);
+  const user = useSelector(state => state.user.currUser);
   const wishlistQuantity = useSelector(state => state.wishlist.quantity);
+  const dispatch = useDispatch();
 
   const handleClick = () => {
     ref.current.focus();
+  }
+
+  const logoutHandler = (e) => {
+    e.preventDefault();
+    dispatch(logout());
   }
   return (
     <Container>
       <Wrapper>
         <Left>
           <Language style={{ color: "black", fontWeight: "bold" }}>EN</Language>
-        </Left>
-        <Center><Logo><Link to='/' style={{ textDecoration: "none", color: "black" }}>TUSHIBA.</Link></Logo></Center>
-        <Right>
           <SearchContainer style={{ border: "none" }} >
             <Search onClick={handleClick} style={{ color: "black", fontWeight: "bold", cursor: "pointer" }} />
             <Input ref={ref} placeholder="Search" />
           </SearchContainer>
-          <MenuItem><Link to='/register' style={{ textDecoration: "none", color: "black", fontWeight: "bold" }}>Register</Link></MenuItem>
-          <MenuItem><Link to='/login' style={{ textDecoration: "none", color: "black", fontWeight: "bold" }}>Sign In</Link></MenuItem>
+        </Left>
+        <Center><Logo><Link to='/' style={{ textDecoration: "none", color: "black" }}>TUSHIBA.</Link></Logo></Center>
+        <Right>
+            {user 
+            ? 
+              <MenuItem><Link to='/' onClick={logoutHandler} style={{ textDecoration: "none", color: "black", fontWeight: "bold" }}>Logout</Link></MenuItem>
+            :
+            <>
+              <MenuItem><Link to='/register' style={{ textDecoration: "none", color: "black", fontWeight: "bold" }}>Register</Link></MenuItem>
+              <MenuItem><Link to='/login' style={{ textDecoration: "none", color: "black", fontWeight: "bold" }}>Sign In</Link></MenuItem>
+            </>
+            }
           <Link to="/wishlist" state={{ fromSpecificPage: true }} style={{ color: "black" }}>
             <MenuItem>
               <Badge overlap="rectangular" badgeContent={wishlistQuantity} color="primary">

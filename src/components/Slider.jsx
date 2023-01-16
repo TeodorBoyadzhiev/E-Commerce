@@ -7,8 +7,9 @@ import { mobile } from '../responsive';
 
 
 const Container = styled.div`
-    width:100%;
+    width:92vw;
     height:80vh;
+    padding: 50px;
     display:flex;
     position:relative;
     overflow:hidden;
@@ -20,13 +21,14 @@ const Arrow = styled.div`
     height:50px;
     background-color:#fff7f7;
     border-radius:50%;
+    border: 1px solid gray;
     display:flex;
     align-items:center;
     justify-content:center;
     position:absolute;
     top:0;
     bottom:0;
-    left:${props => props.direction === "left" && "10px"};
+    left:${props => props.direction === "left" && "60px"};
     right:${props => props.direction === "right" && "10px"};
     margin:auto;
     cursor:pointer;
@@ -34,6 +36,7 @@ const Arrow = styled.div`
     z-index: 2;
     &:hover{
         background-color: #757474;
+        border: none;
     }
 `;
 const Wrapper = styled.div`
@@ -42,7 +45,6 @@ const Wrapper = styled.div`
     transition: all 1.5s ease;
     transform: translateX(${props => props.slideIndex * -100}vw);
 `;
-
 const Slide = styled.div`
     width:100vw;
     height:100vh;
