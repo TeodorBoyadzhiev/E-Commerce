@@ -1,17 +1,24 @@
 import React, { useEffect, useState } from 'react';
+//api
+import axios from 'axios';
+//styling
 import styled from 'styled-components';
+//responsive
+import { mobile } from '../responsive';
+//mui
+import { Add, Remove } from '@mui/icons-material';
+//react hooks
+import { useDispatch } from 'react-redux';
+import { useRef } from 'react';
+//router
+import { useLocation } from 'react-router-dom';
+//redux
+import { addProduct } from '../redux/cartRedux';
+//components
 import Navbar from '../components/Navbar';
 import Announcement from '../components/Announcement';
 import Footer from '../components/Footer';
 import Newsletter from '../components/Newsletter';
-import { Add, Remove } from '@mui/icons-material';
-import { mobile } from '../responsive';
-import { useLocation } from 'react-router-dom';
-import axios from 'axios';
-import { addProduct } from '../redux/cartRedux';
-import { useDispatch } from 'react-redux';
-import { useRef } from 'react';
-import DropDown from '../components/common/Dropdown';
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -59,6 +66,7 @@ const FilterContainer = styled.div`
 const Filter = styled.div`
   display:flex;
   align-items:center;
+  gap: 7px;
 `;
 const FilterTitle = styled.span`
   font-size:20px;
@@ -69,18 +77,11 @@ const FilterColor = styled.div`
   height:20px;
   border-radius:50%;
   background-color: ${props => props.color};
-  margin:0px 5px;
   cursor:pointer;
   &.active {
     border:${props => props.color === 'black' ? '2px solid gray' : '2px solid black'};
     padding: 2px;
   };
-`;
-const FilterSize = styled.div`
-  display: flex;
-  gap: 10px;
-  margin-left:10px;
-  padding:5px;
 `;
 const FilterSizeOption = styled.div`
   display: flex;
@@ -180,12 +181,12 @@ const Product = () => {
   let sls = ' ';
   const activeSize = (size, index) => {
     const sizes = sizeRef.current.children;
-    for (let i = 0; i < sizes.length; i += 1) {
+    for (let i = 1; i < sizes.length; i += 1) {
       sizes[i].className = '' + sizes[i].className.replace('active', '');
       sls = ' ';
     }
-    sizes[index].className += 'active';
-    sls = sizes[index].className;
+    sizes[index + 1].className += 'active';
+    sls = sizes[index + 1].className;
     setSize(size.toUpperCase());
   }
 
@@ -215,13 +216,11 @@ const Product = () => {
                     return <FilterColor key={color} className={index === 0 ? 'active' : cls} color={color} onClick={() => activeColor(color, index)} />
                   })}
                 </Filter>
-                <Filter>
+                <Filter ref={sizeRef}>
                   <FilterTitle>Size: </FilterTitle>
-                  <FilterSize ref={sizeRef} onChange={(e) => setSize(e.target.value)}>
                     {Object.values(product.size).map((size, index) => {
                       return <FilterSizeOption key={size} className={index === 0 ? 'active' : sls} onClick={() => activeSize(size, index)}>{size.toUpperCase()}</FilterSizeOption>
                     })}
-                  </FilterSize>
                 </Filter>
               </FilterContainer>
               <AddContainer>
