@@ -11,6 +11,7 @@ import axios from 'axios';
 import { addProduct } from '../redux/cartRedux';
 import { useDispatch } from 'react-redux';
 import { useRef } from 'react';
+import DropDown from '../components/common/Dropdown';
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -29,7 +30,6 @@ const Image = styled.img`
   ${mobile({ height: "40%" })};   
 
 `;
-
 const InfoContainer = styled.div`
   flex:1;
   padding:0px 50px;
@@ -39,21 +39,20 @@ const InfoContainer = styled.div`
 const Title = styled.h1`
   font-weight:200;
 `;
-
 const Desc = styled.p`
   margin:20px 0px;
 `;
-
 const Price = styled.span`
   font-weight:100;
   font-size:40px;
 `;
-
 const FilterContainer = styled.div`
-  width:50%;
-  margin:30px 0px;
   display:flex;
   justify-content:space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+  width:50%;
+  margin:30px 0px;
   ${mobile({ width: "100%" })};   
 
 `;
@@ -77,11 +76,29 @@ const FilterColor = styled.div`
     padding: 2px;
   };
 `;
-const FilterSize = styled.select`
+const FilterSize = styled.div`
+  display: flex;
+  gap: 10px;
   margin-left:10px;
   padding:5px;
 `;
-const FilterSizeOption = styled.option``;
+const FilterSizeOption = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  width: 50px;
+  background: white;
+  box-sizing: border-box;
+  &:hover {
+    border: 1px solid black;
+    cursor: pointer;
+  }
+  &.active {
+    border: 1px solid black;
+    background: papayawhip;
+  }
+`;
 const AddContainer = styled.div`
   width:50%;
   margin-top:100px;
@@ -122,7 +139,7 @@ const Button = styled.button`
 const Product = () => {
   const location = useLocation();
   const id = location.pathname.split('/')[2];
-  const [product, setProduct] = useState({ color: ['blue'], size: 's' });
+  const [product, setProduct] = useState({ color: [], size: 's' });
   const [quantity, setQuantity] = useState(1);
   const [color, setColor] = useState(product.color[0]);
   const [size, setSize] = useState(product.size[0]);
@@ -146,17 +163,30 @@ const Product = () => {
     }
   }
 
-  const ref = useRef();
+  const colorRef = useRef();
   let cls = ' ';
   const activeColor = (color, index) => {
-    const colors = ref.current.children;
-    for (let i = 0; i < colors.length; i += 1) {
+    const colors = colorRef.current.children;
+    for (let i = 1; i < colors.length; i += 1) {
       colors[i].className = '' + colors[i].className.replace('active', '');
       cls = ' ';
     }
     colors[index + 1].className += 'active';
     cls = colors[index + 1].className;
     setColor(color);
+  }
+
+  const sizeRef = useRef();
+  let sls = ' ';
+  const activeSize = (size, index) => {
+    const sizes = sizeRef.current.children;
+    for (let i = 0; i < sizes.length; i += 1) {
+      sizes[i].className = '' + sizes[i].className.replace('active', '');
+      sls = ' ';
+    }
+    sizes[index].className += 'active';
+    sls = sizes[index].className;
+    setSize(size.toUpperCase());
   }
 
   const handleClick = () => {
@@ -179,17 +209,17 @@ const Product = () => {
               </Desc>
               <Price>$ {product.price * quantity}</Price>
               <FilterContainer>
-                <Filter ref={ref}>
-                  <FilterTitle>Color</FilterTitle>
+                <Filter ref={colorRef}>
+                  <FilterTitle>Color: </FilterTitle>
                   {product.color.map((color, index) => {
-                    return <FilterColor className={cls} color={color} key={index} onClick={() => activeColor(color, index)} />
+                    return <FilterColor key={color} className={index === 0 ? 'active' : cls} color={color} onClick={() => activeColor(color, index)} />
                   })}
                 </Filter>
                 <Filter>
-                  <FilterTitle>Size</FilterTitle>
-                  <FilterSize onChange={(e) => setSize(e.target.value)}>
-                    {Object.values(product.size).map((size) => {
-                      return <FilterSizeOption key={size}>{size}</FilterSizeOption>
+                  <FilterTitle>Size: </FilterTitle>
+                  <FilterSize ref={sizeRef} onChange={(e) => setSize(e.target.value)}>
+                    {Object.values(product.size).map((size, index) => {
+                      return <FilterSizeOption key={size} className={index === 0 ? 'active' : sls} onClick={() => activeSize(size, index)}>{size.toUpperCase()}</FilterSizeOption>
                     })}
                   </FilterSize>
                 </Filter>
