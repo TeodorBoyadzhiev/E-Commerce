@@ -1,3 +1,5 @@
+//api
+import axios from 'axios';
 // Material-UI 
 import { Badge } from '@material-ui/core';
 import { Search, ShoppingCartOutlined } from '@mui/icons-material';
@@ -12,6 +14,7 @@ import { logout } from '../redux/userRedux';
 // Styling
 import styled from 'styled-components';
 import { mobile } from '../responsive';
+
 
 const Container = styled.div`
   background: white;
@@ -103,9 +106,22 @@ const Navbar = () => {
     ref.current.focus();
   }
 
-  const logoutHandler = (e) => {
+  const logoutHandler = async (e) => {
     e.preventDefault();
-    dispatch(logout());
+    try {
+      await axios
+        .post(`http://localhost:5000/api/auth/logout`, user)
+        .then(() => dispatch(logout()))
+        .catch((error) => {
+          console.log(error);
+          if (error.response) {
+            console.log(error.response.data);
+          }
+        });
+
+    } catch (err) {
+      console.log(err);
+    }
   }
   return (
     <Container>
@@ -119,15 +135,15 @@ const Navbar = () => {
         </Left>
         <Center><Logo><Link to='/' style={{ textDecoration: "none", color: "black" }}>TUSHIBA.</Link></Logo></Center>
         <Right>
-            {user 
-            ? 
-              <MenuItem><Link to='/' onClick={logoutHandler} style={{ textDecoration: "none", color: "black", fontWeight: "bold" }}>Logout</Link></MenuItem>
+          {user
+            ?
+            <MenuItem><Link to='/' onClick={logoutHandler} style={{ textDecoration: "none", color: "black", fontWeight: "bold" }}>Logout</Link></MenuItem>
             :
             <>
               <MenuItem><Link to='/register' style={{ textDecoration: "none", color: "black", fontWeight: "bold" }}>Register</Link></MenuItem>
               <MenuItem><Link to='/login' style={{ textDecoration: "none", color: "black", fontWeight: "bold" }}>Sign In</Link></MenuItem>
             </>
-            }
+          }
           <Link to="/wishlist" state={{ fromSpecificPage: true }} style={{ color: "black" }}>
             <MenuItem>
               <Badge overlap="rectangular" badgeContent={wishlistQuantity} color="primary">
