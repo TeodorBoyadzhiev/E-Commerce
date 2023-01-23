@@ -19,6 +19,7 @@ import Navbar from '../components/Navbar';
 import Announcement from '../components/Announcement';
 import Footer from '../components/Footer';
 import Newsletter from '../components/Newsletter';
+import SizeColorHOC from '../components/HOC/SizeColorHOC';
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -137,13 +138,12 @@ const Button = styled.button`
 `;
 
 
-const Product = () => {
+const Product = ({size, color, activeColor, activeSize, colorRef, sizeRef, cls, sls}) => {
   const location = useLocation();
   const id = location.pathname.split('/')[2];
   const [product, setProduct] = useState({ color: [], size: 's' });
   const [quantity, setQuantity] = useState(1);
-  const [color, setColor] = useState(product.color[0]);
-  const [size, setSize] = useState(product.size[0]);
+
   const dispatch = useDispatch();
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -162,32 +162,6 @@ const Product = () => {
     } else if (type === 'increase') {
       setQuantity(quantity + 1);
     }
-  }
-
-  const colorRef = useRef();
-  let cls = ' ';
-  const activeColor = (color, index) => {
-    const colors = colorRef.current.children;
-    for (let i = 1; i < colors.length; i += 1) {
-      colors[i].className = '' + colors[i].className.replace('active', '');
-      cls = ' ';
-    }
-    colors[index + 1].className += 'active';
-    cls = colors[index + 1].className;
-    setColor(color);
-  }
-
-  const sizeRef = useRef();
-  let sls = ' ';
-  const activeSize = (size, index) => {
-    const sizes = sizeRef.current.children;
-    for (let i = 1; i < sizes.length; i += 1) {
-      sizes[i].className = '' + sizes[i].className.replace('active', '');
-      sls = ' ';
-    }
-    sizes[index + 1].className += 'active';
-    sls = sizes[index + 1].className;
-    setSize(size.toUpperCase());
   }
 
   const handleClick = () => {
@@ -218,9 +192,9 @@ const Product = () => {
                 </Filter>
                 <Filter ref={sizeRef}>
                   <FilterTitle>Size: </FilterTitle>
-                    {Object.values(product.size).map((size, index) => {
-                      return <FilterSizeOption key={size} className={index === 0 ? 'active' : sls} onClick={() => activeSize(size, index)}>{size.toUpperCase()}</FilterSizeOption>
-                    })}
+                  {Object.values(product.size).map((size, index) => {
+                    return <FilterSizeOption key={size} className={index === 0 ? 'active' : sls} onClick={() => activeSize(size, index)}>{size.toUpperCase()}</FilterSizeOption>
+                  })}
                 </Filter>
               </FilterContainer>
               <AddContainer>
@@ -241,4 +215,4 @@ const Product = () => {
   )
 }
 
-export default Product
+export default SizeColorHOC(Product)
