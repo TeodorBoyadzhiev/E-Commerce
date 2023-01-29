@@ -115,7 +115,7 @@ const Error = styled.span`
 const Register = () => {
   const [showRecaptcha, setShowRecaptcha] = useState(false);
   const { register, handleSubmit, formState, formState: { errors, submitCount }, unregister, watch } = useForm({
-    mode: 'onChange',
+    mode: 'onBlur',
     reValidateMode: 'onChange',
     defaultValues: {
       username: '',
@@ -137,8 +137,9 @@ const Register = () => {
       const email = formValues.email;
       const password = formValues.password;
       const token = await reRef.current.getValue();
+      reRef.current.reset();
 
-      await axios.post('http://localhost:5000/api/auth/register', { username, email, password, token });
+      await axios.post('http://localhost:5000/api/auth/register', { username, email, password, token, showRecaptcha });
       
       //login after successful register
       try {
@@ -156,8 +157,8 @@ const Register = () => {
     }
   }
 
-  useEffect(() => { submitCount === 2 && setShowRecaptcha(true); }, [submitCount]);
-
+  useEffect(() => { submitCount >= 2 && setShowRecaptcha(true); }, [submitCount]);
+  
   return (
     <Container>
       <Wrapper>
@@ -188,7 +189,7 @@ const Register = () => {
             showRecaptcha={showRecaptcha}
             {...register('recaptcha', {
               validate: () => {
-                if (submitCount > 1 && formState.defaultValues.recaptcha === '') {
+                if (submitCount > 1 && formState.defaultValues.recaptcha != '') {
                   return 'This field is required'
                 }
               }
