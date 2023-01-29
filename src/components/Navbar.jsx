@@ -1,5 +1,6 @@
 //api
 import axios from 'axios';
+import { logoutUser } from '../redux/apiCalls';
 // Material-UI 
 import { Badge } from '@material-ui/core';
 import { Search, ShoppingCartOutlined } from '@mui/icons-material';
@@ -7,14 +8,11 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 // React
 import React, { useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-//state
-import { logout } from '../redux/userRedux';
 // Styling
 import styled from 'styled-components';
 import { mobile } from '../responsive';
-
 
 const Container = styled.div`
   background: white;
@@ -101,6 +99,7 @@ const Navbar = () => {
   const user = useSelector(state => state.user.currUser);
   const wishlistQuantity = useSelector(state => state.wishlist.quantity);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleClick = () => {
     ref.current.focus();
@@ -109,16 +108,7 @@ const Navbar = () => {
   const logoutHandler = async (e) => {
     e.preventDefault();
     try {
-      await axios
-        .post(`http://localhost:5000/api/auth/logout`, user)
-        .then(() => dispatch(logout()))
-        .catch((error) => {
-          console.log(error);
-          if (error.response) {
-            console.log(error.response.data);
-          }
-        });
-
+      await logoutUser(dispatch, user).then(() => navigate('/'));
     } catch (err) {
       console.log(err);
     }
