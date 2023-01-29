@@ -37,7 +37,7 @@ import {
 } from './Product.style';
 
 
-const Product = ({size, color, activeColor, activeSize, colorRef, sizeRef, cls, sls}) => {
+const Product = ({currSize, currColor, activeColor, activeSize, colorRef, sizeRef, cls, sls}) => {
   const location = useLocation();
   const id = location.pathname.split('/')[2];
   const [product, setProduct] = useState({ color: [], size: 's' });
@@ -64,8 +64,11 @@ const Product = ({size, color, activeColor, activeSize, colorRef, sizeRef, cls, 
   }
 
   const handleClick = () => {
+    const color = currColor ? currColor : product.color[0];
+    const size = currSize ? currSize : product.size[0];
     dispatch(addProduct({ ...product, color, quantity, size }));
   }
+
   return (
     <>
       {product &&

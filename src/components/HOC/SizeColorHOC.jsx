@@ -35,8 +35,8 @@ const SizeColorHOC = (OriginalCoponent) => {
         return <OriginalCoponent
             cls={cls}
             sls={sls}
-            color={color}
-            size={size}
+            currColor={color}
+            currSize={size}
             colorRef={colorRef}
             sizeRef={sizeRef}
             activeColor={activeColor}
