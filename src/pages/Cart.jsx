@@ -28,7 +28,7 @@ const Title = styled.h1`
     font-weight:300;
     text-align:center;
 `;
-const Top = styled.div`
+const Heading = styled.div`
     display:flex;
     align-items:center;
     justify-content:space-between;
@@ -47,7 +47,6 @@ const TopTexts = styled.div`
 
 `;
 const TopText = styled.span`
-    text-decoration:underline;
     cursor:pointer;
     margin:0px 10px;
 `;
@@ -56,10 +55,12 @@ const Bottom = styled.div`
     justify-content:space-between;
     padding: 20px;
     ${mobile({ flexDirection: "column" })};   
-
 `;
 const Info = styled.div`
-    flex:3;
+    flex-basis: 60%;
+    height: fit-content;
+    background-color: white;
+    border-radius: 10px;
 `;
 const Product = styled.div`
     display:flex;
@@ -85,7 +86,6 @@ const ProductId = styled.span``;
 const ProductColor = styled.div`
     width:20px;
     height:20px;
-    border-radius:50%;
     background-color:${(props) => props.color};
     cursor:pointer;
 `;
@@ -111,20 +111,25 @@ const ProductAmount = styled.div`
 const ProductPrice = styled.div`
     font-size:30px;
     font-weight:200;
+    color: green;
+    font-weight: bold;
     ${mobile({ marginBottom: "20px" })};   
 
 `;
 const Hr = styled.hr`
-    background-color:#eee;
+    background-color: black;
     border:none;
     height:1px;
+    width: 30%;
 `;
 const Summary = styled.div`
-    flex:1;
-    border:0.5px solid lightgray;
+    position: sticky;
+    top: 20px;
+    flex-basis: 30%;
     border-radius: 10px;
     padding:20px;
     height:50vh;
+    background-color: white;
 `;
 const SummaryTitle = styled.h1`
     font-weight:200;
@@ -172,14 +177,14 @@ const Cart = () => {
             <Announcement />
             <Wrapper>
                 <Title>YOUR BAG</Title>
-                <Top>
+                <Heading>
                     <TopButton>CONTINUE SHOPPING</TopButton>
                     <TopTexts>
                         <TopText>Shopping Bag(2)</TopText>
                         <TopText>Your Wishlist(0)</TopText>
                     </TopTexts>
                     <TopButton type="filled">CHECKOUT NOW</TopButton>
-                </Top>
+                </Heading>
                 <Bottom>
                     <Info>
                         {cart.products.map((product, index) => (<React.Fragment key={index}>
@@ -227,7 +232,7 @@ const Cart = () => {
                             <SummaryItemPrice>$ {cart.total ? cart.total : 0}</SummaryItemPrice>
                         </SummaryItem>
                         <StripeCheckout
-                            name="Lama Shop"
+                            name="Tushiba Shop"
                             image="https://avatars.githubusercontent.com/u/1486366?v=4"
                             billingAddress
                             shippingAddress

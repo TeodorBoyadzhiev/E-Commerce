@@ -11,6 +11,10 @@ const RemoveProduct = styled.button`
     border:none;
     background-color:transparent;
     color:black;
+    background-color: lightgray;
+    border-radius: 5px;
+    width: fit-content;
+    padding: 0 3px 0 0;
 `;
 
 const RemoveButton = ({handleClick}) => {
