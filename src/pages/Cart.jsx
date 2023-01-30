@@ -154,6 +154,7 @@ const SummaryButton = styled.button`
 
 const Cart = () => {
     const cart = useSelector(state => state.cart);
+    console.log(cart)
     const dispatch = useDispatch();
     const adjustQuantity = (type, id) => {
         if (type === 'increase') {
@@ -162,8 +163,8 @@ const Cart = () => {
             dispatch(incrProdQuantity({ type: 'decrease', id }));
         }
     }
-    const deleteProduct = (id) => {
-        dispatch(removeProduct(id));
+    const deleteProduct = (product) => {
+        dispatch(removeProduct(product));
     }
 
     const [stripeToken, setStripeToken] = useState(null)
@@ -195,8 +196,8 @@ const Cart = () => {
                                         <ProductName><b>Product:</b> {product.title}</ProductName>
                                         <ProductId><b>ID:</b> 932131255</ProductId>
                                         <ProductColor color={product.color} />
-                                        <ProductSize><b>Size:</b> {product.size[1] ? product.size[0] : product.size}</ProductSize>
-                                        <RemoveButton handleClick={() => deleteProduct(product._id)} />
+                                        <ProductSize><b>Size:</b> {product.size}</ProductSize>
+                                        <RemoveButton handleClick={() => deleteProduct(product)} />
                                     </Details>
                                 </ProductDetail>
                                 <PriceDetail>

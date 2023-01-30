@@ -9,12 +9,21 @@ const cartSlice = createSlice({
     },
     reducers: {
         addProduct: (state, action) => {
-            let prodIndex = state.products.findIndex(product => product._id === action.payload._id);
+            let prodIndex = state.products.findIndex(product => (
+                (
+                    product._id === action.payload._id
+                    && product.color === action.payload.color
+                    && product.size === action.payload.size
+                )
+            ));
+
             if (prodIndex !== -1) {
                 state.quantity += action.payload.quantity;
                 state.products[prodIndex].quantity += action.payload.quantity;
+                state.total += action.payload.quantity * action.payload.price;
                 return;
             }
+
             state.quantity += action.payload.quantity;
             state.products.push(action.payload);
             state.total += action.payload.price * action.payload.quantity;
@@ -34,7 +43,16 @@ const cartSlice = createSlice({
             }
         },
         removeProduct: (state, action) => {
-            let productIndex = state.products.findIndex(product => product._id === action.payload);
+            let productIndex = state.products.findIndex(product => (
+                (
+                    product._id === action.payload._id
+                    && product.size === action.payload.size
+                    && product.size === action.payload.size
+                )
+            ));
+
+            if (productIndex === -1) return;
+
             state.quantity -= state.products[productIndex].quantity;
             state.total -= state.products[productIndex].price * state.products[productIndex].quantity;
             state.products.splice(productIndex, 1);
