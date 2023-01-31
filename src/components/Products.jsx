@@ -7,6 +7,9 @@ import styled from 'styled-components';
 import Product from './Product';
 //utils
 import { addToLocalStorageLastSeenProducts } from '../utils/productHelper';
+//state
+import { useDispatch } from 'react-redux';
+import { addLastSeenProducts } from '../redux/cartRedux';
 
 const Container = styled.div`
     padding:30px;
@@ -18,6 +21,8 @@ const Container = styled.div`
 const Products = ({ cat, filters, sort }) => {
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const getProducts = async () => {
@@ -61,6 +66,7 @@ const Products = ({ cat, filters, sort }) => {
     }, [filters, sort]);
 
     const handleAddToStorage = (item) => {
+        dispatch(addLastSeenProducts(item));
         addToLocalStorageLastSeenProducts(item);
     }
 

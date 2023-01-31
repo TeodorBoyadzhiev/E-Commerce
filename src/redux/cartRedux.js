@@ -4,6 +4,7 @@ const cartSlice = createSlice({
     name: 'cart',
     initialState: {
         products: [],
+        lastSeenProducts: [],
         quantity: 0,
         total: 0
     },
@@ -29,7 +30,7 @@ const cartSlice = createSlice({
             state.total += action.payload.price * action.payload.quantity;
         },
         incrProdQuantity: (state, action) => {
-            let prodIndex = state.products.findIndex(product => product._id === action.payload.id);
+            let prodIndex = state.products.findIndex(product => product._id === action.payload._id);
             if (action.payload.type === 'increase') {
                 state.products[prodIndex].quantity += 1;
                 state.quantity += 1;
@@ -41,6 +42,18 @@ const cartSlice = createSlice({
                     state.total -= state.products[prodIndex].price;
                 }
             }
+        },
+        addLastSeenProducts: (state, action) => {
+            let productIndex = state.lastSeenProducts.findIndex(product => product._id === action.payload._id);
+
+            if (productIndex === -1) {
+                state.lastSeenProducts.unshift(action.payload);
+            } else {
+                let existingProduct = state.lastSeenProducts.splice(productIndex, 1);
+                state.lastSeenProducts.unshift(...existingProduct);
+            }
+
+            // state.lastSeenProducts = [];
         },
         removeProduct: (state, action) => {
             let productIndex = state.products.findIndex(product => (
@@ -60,5 +73,5 @@ const cartSlice = createSlice({
     }
 });
 
-export const { addProduct, incrProdQuantity, removeProduct } = cartSlice.actions
+export const { addProduct, incrProdQuantity, addLastSeenProducts, removeProduct } = cartSlice.actions
 export default cartSlice.reducer;
