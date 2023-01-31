@@ -1,10 +1,12 @@
 import axios from "axios";
 import { loginFailure, loginStart, loginSuccess, logout } from "./userRedux"
 
+const BASE_URL = 'http://localhost:5000/api/auth';
+
 export const login = async (dispatch, user) => {
     dispatch(loginStart());
     try {
-        const res = await axios.post('http://localhost:5000/api/auth/login', user);
+        const res = await axios.post(`${BASE_URL}/login`, user);
         dispatch(loginSuccess(res.data));
     } catch (err) {
         dispatch(loginFailure());
@@ -15,7 +17,7 @@ export const login = async (dispatch, user) => {
 export const logoutUser = async (dispatch, user) => {
     try {
         await axios
-            .post('http://localhost:5000/api/auth/logout', user)
+            .post(`${BASE_URL}/logout`, user)
             .then(() => dispatch(logout()))
             .catch((error) => {
                 console.log(error);
@@ -23,6 +25,7 @@ export const logoutUser = async (dispatch, user) => {
                     console.log(error.response.data);
                 }
             });
+            
     } catch (err) {
         console.log(err)
     }

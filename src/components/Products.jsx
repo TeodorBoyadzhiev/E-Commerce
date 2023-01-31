@@ -3,9 +3,10 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 //styling
 import styled from 'styled-components';
-// import { categories, popularProducts } from '../data';
 //components
 import Product from './Product';
+//utils
+import { addToLocalStorageLastSeenProducts } from '../utils/productHelper';
 
 const Container = styled.div`
     padding:30px;
@@ -13,9 +14,11 @@ const Container = styled.div`
     flex-wrap:wrap;
     justify-content:space-between;
 `;
+
 const Products = ({ cat, filters, sort }) => {
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
+
     useEffect(() => {
         const getProducts = async () => {
             try {
@@ -30,6 +33,7 @@ const Products = ({ cat, filters, sort }) => {
         }
         getProducts();
     }, [cat]);
+
     useEffect(() => {
         cat && setFilteredProducts(
             products.filter((item) =>
@@ -39,6 +43,7 @@ const Products = ({ cat, filters, sort }) => {
             )
         );
     }, [products, cat, filters, sort]);
+
     useEffect(() => {
         if (sort === 'newest') {
             setFilteredProducts((prevState) => {
@@ -54,14 +59,19 @@ const Products = ({ cat, filters, sort }) => {
             });
         }
     }, [filters, sort]);
+
+    const handleAddToStorage = (item) => {
+        addToLocalStorageLastSeenProducts(item);
+    }
+
     return (
         <Container>
             {cat ? filteredProducts.map((item) => (
-                <Product item={item} key={item._id} />
+                <Product item={item} key={item._id} addToStorage={handleAddToStorage} />
             )) : products
                 .slice(0, 8)
                 .map((item) => (
-                    <Product item={item} key={item._id} />
+                    <Product item={item} key={item._id} addToStorage={handleAddToStorage} />
                 ))}
         </Container>
     )

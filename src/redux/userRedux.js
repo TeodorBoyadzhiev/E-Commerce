@@ -15,6 +15,7 @@ const userSlice = createSlice({
             state.isFetching = false;
             state.currUser = action.payload;
             state.error = false;
+            localStorage.removeItem('last_seen_product_ids');
         },
         loginFailure: (state) => {
             state.isFetching = false;
@@ -22,6 +23,8 @@ const userSlice = createSlice({
         },
         logout: (state, action) => {
             state.currUser = null;
+            localStorage.removeItem('last_seen_product_ids');
+
         },
     }
 });

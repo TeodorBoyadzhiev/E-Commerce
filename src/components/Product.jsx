@@ -28,7 +28,6 @@ const Info = styled.div`
     cursor:pointer;
 
 `;
-
 const Container = styled.div`
     flex:1;
     margin:5px;
@@ -44,7 +43,6 @@ const Container = styled.div`
         opacity:1;
     }
 `;
-
 const Circle = styled.div`
     width:200px;
     height:200px;
@@ -56,7 +54,6 @@ const Image = styled.img`
     height:75%;
     z-index:2;
 `;
-
 const Icon = styled.div`
     width:40px;
     height:40px;
@@ -75,7 +72,7 @@ const Icon = styled.div`
     }
 `;
 
-const Product = ({ item }) => {
+const Product = ({ item, addToStorage }) => {
     const dispatch = useDispatch();
 
     const addToCart = () => {
@@ -94,7 +91,7 @@ const Product = ({ item }) => {
                     <ShoppingCartOutlined onClick={addToCart} />
                 </Icon>
                 <Icon>
-                    <Link to={`/product/${item._id}`}>
+                    <Link to={`/product/${item._id}`} onClick={() => addToStorage(item)}>
                         <SearchOutlined style={{color: "black"}}/>
                     </Link>
                 </Icon>
