@@ -12,6 +12,23 @@ import Newsletter from '../../components/Newsletter';
 import RemoveButton from '../../components/common/RemoveButton';
 //material-ui
 import HeartBrokenIcon from '@mui/icons-material/HeartBroken';
+//styling
+import {
+    Container,
+    Wrapper,
+    Title,
+    Products,
+    Product,
+    Image,
+    Details,
+    ProductName,
+    ProductId,
+    ProductColor,
+    ProductSize,
+    EmptyWrapper,
+    Empty,
+    Button
+} from './Wishlist.style';
 
 const Wishlist = () => {
     const wishlist = useSelector(state => state.wishlist);

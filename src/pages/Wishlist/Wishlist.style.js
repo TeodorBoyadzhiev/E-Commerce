@@ -1,7 +1,7 @@
 //style
 import styled from 'styled-components';
 //responsive
-import { mobile } from '../responsive';
+import { mobile } from '../../responsive';
 
 const Container = styled.div`
     height:100%;
@@ -16,7 +16,7 @@ const Product = styled.div`
     display:flex;
     justify-content:flex-start;
     margin-top: 20px;
-    ${mobile({ flexDirection: "column" })};   
+    ${mobile({ flexDirection: "column" })};
 `;
 const Image = styled.img`
     width:200px;

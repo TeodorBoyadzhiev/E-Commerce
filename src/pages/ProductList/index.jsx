@@ -8,12 +8,22 @@ import Footer from '../../components/Footer';
 //hooks
 import { useLocation } from 'react-router-dom';
 import { useState } from 'react';
+//styling
+import {
+    Container,
+    Title,
+    FilterContainer,
+    Filter,
+    FilterText,
+    Select,
+    Option
+} from './ProductList.style';
 
 const ProductList = () => {
     const [filters, setFilters] = useState({});
     const [sort, setSort] = useState('newest');
     const location = useLocation();
-    
+
     const cat = location.pathname.split('/')[2];
 
     useEffect(() => {
