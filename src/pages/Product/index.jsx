@@ -8,13 +8,13 @@ import { useDispatch } from 'react-redux';
 //router
 import { useLocation } from 'react-router-dom';
 //redux
-import { addProduct } from '../redux/cartRedux';
+import { addProduct } from '../../redux/cartRedux';
 //components
-import Navbar from '../components/Navbar';
-import Announcement from '../components/Announcement';
-import Footer from '../components/Footer';
-import Newsletter from '../components/Newsletter';
-import SizeColorHOC from '../components/HOC/SizeColorHOC';
+import Navbar from '../../components/Navbar';
+import Announcement from '../../components/Announcement';
+import Footer from '../../components/Footer';
+import Newsletter from '../../components/Newsletter';
+import SizeColorHOC from '../../components/HOC/SizeColorHOC';
 //styling
 import {
   Container, 

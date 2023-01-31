@@ -1,7 +1,7 @@
 //styling
 import styled from 'styled-components';
 //responsive
-import { mobile } from '../responsive';
+import { mobile } from '../../responsive';
 
 const Container = styled.div``;
 const Wrapper = styled.div`
