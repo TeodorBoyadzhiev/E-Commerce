@@ -5,13 +5,12 @@ import { mobile } from '../../responsive';
 
 const Container = styled.div``;
 const Wrapper = styled.div`
-    padding:20px;
+    padding:30px;
     ${mobile({ padding: "10px" })};   
 
 `;
-const Title = styled.h1`
-    font-weight:300;
-    text-align:center;
+const Title = styled.h2`
+    display: inline-block;
 `;
 const Heading = styled.div`
     display:flex;
@@ -55,6 +54,7 @@ const Info = styled.div`
 `;
 const AccordionWrapper = styled.div`
 `;
+const LastSeenProductsWrapper = styled.div``;
 const Product = styled.div`
     display:flex;
     justify-content:space-between;
@@ -152,6 +152,25 @@ const SummaryButton = styled.button`
     cursor:pointer;
 
 `;
+const EmptyWrapper = styled.div`
+    padding: 100px 0;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+`;
+const Empty = styled.span`
+    font-weight: 700;
+    font-size: 20px;
+    margin-bottom: 20px;
+`;
+const Button = styled.button`
+    margin-top: 20px;
+    padding: 15px;
+    background-color:black;
+    color:white;
+    cursor:pointer;
+`;
 
 export {
     Container,
@@ -166,6 +185,7 @@ export {
     RightSection,
     Info,
     AccordionWrapper,
+    LastSeenProductsWrapper,
     Product,
     ProductDetail,
     Image,
@@ -186,5 +206,8 @@ export {
     SummaryItem,
     SummaryItemText,
     SummaryItemPrice,
-    SummaryButton
+    SummaryButton,
+    EmptyWrapper,
+    Empty,
+    Button
 }
