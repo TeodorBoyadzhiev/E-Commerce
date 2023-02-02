@@ -30,7 +30,8 @@ const cartSlice = createSlice({
             state.total += action.payload.price * action.payload.quantity;
         },
         incrProdQuantity: (state, action) => {
-            let prodIndex = state.products.findIndex(product => product._id === action.payload._id);
+            let prodIndex = state.products.findIndex(product => product._id === action.payload.id);
+            
             if (action.payload.type === 'increase') {
                 state.products[prodIndex].quantity += 1;
                 state.quantity += 1;
@@ -44,15 +45,31 @@ const cartSlice = createSlice({
             }
         },
         addLastSeenProducts: (state, action) => {
-            let productIndex = state.lastSeenProducts.findIndex(product => product._id === action.payload._id);
+            let products = state.lastSeenProducts;
+            let productsCount = products.length;
+            console.log(productsCount)
+            let productIndex = products.findIndex(product => product._id === action.payload._id);
 
-            if (productIndex === -1) {
-                state.lastSeenProducts.unshift(action.payload);
-            } else {
-                let existingProduct = state.lastSeenProducts.splice(productIndex, 1);
-                state.lastSeenProducts.unshift(...existingProduct);
+            if (productsCount >= 1 && productIndex !== -1) {
+                let existingProduct = products.splice(productIndex, 1);
+                products.unshift(...existingProduct);
+                console.log(...products)
+                return;
+            } else if (productsCount >= 1 && productIndex === -1) {
+                products.pop(productsCount - 1);
+                products.unshift(action.payload);
+                console.log(...products)
+                return;
             }
 
+            if (productIndex === -1) {
+                products.unshift(action.payload);
+            } else {
+                let existingProduct = products.splice(productIndex, 1);
+                products.unshift(...existingProduct);
+            }
+
+            // localStorage.removeItem('last_seen_product_ids')
             // state.lastSeenProducts = [];
         },
         removeProduct: (state, action) => {
