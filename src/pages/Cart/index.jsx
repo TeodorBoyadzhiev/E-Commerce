@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 //components
 import Navbar from '../../components/Navbar';
-import Announcement from '../../components/Announcement';
 import Footer from '../../components/Footer';
 import PaymentSection from './PaymentSection';
 import CartProducts from './CartProducts';
@@ -16,10 +15,6 @@ import {
     Container,
     Wrapper,
     Title,
-    Heading,
-    TopButton,
-    TopTexts,
-    TopText,
     Bottom,
     LeftSection,
     RightSection,
@@ -28,6 +23,7 @@ import {
     Empty,
     Button
 } from './Cart.style';
+import Heading from './Heading';
 
 const Cart = () => {
     const cart = useSelector(state => state.cart);
@@ -57,14 +53,7 @@ const Cart = () => {
                 <Title>YOUR CART</Title>
                 {cart.products.length ?
                     <>
-                        <Heading>
-                            <TopButton>CONTINUE SHOPPING</TopButton>
-                            <TopTexts>
-                                <TopText>Shopping Bag(2)</TopText>
-                                <TopText>Your Wishlist(0)</TopText>
-                            </TopTexts>
-                            <TopButton type="filled">CHECKOUT NOW</TopButton>
-                        </Heading>
+                        <Heading />
                         <Bottom>
                             <LeftSection>
                                 <CartProducts cart={cart} deleteProduct={deleteProduct} adjustQuantity={adjustQuantity} />

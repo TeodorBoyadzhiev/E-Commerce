@@ -12,19 +12,18 @@ const Wrapper = styled.div`
 const Title = styled.h2`
     display: inline-block;
 `;
-const Heading = styled.div`
+const TopSection = styled.div`
     display:flex;
     align-items:center;
-    justify-content:space-between;
-    padding:20px;
+    justify-content:flex-end;
+    margin-right: 80px;
 `;
 const TopButton = styled.button`
     padding:10px;
     font-weight:600;
     cursor:pointer;
-    border: ${(props) => props.type === "filled" && "none"};
-    background-color:${(props) => props.type === "filled" ? "black" : "transparent"};
-    color:${(props) => props.type === "filled" && "white"};
+    border: filled;
+    background-color:transparent;
 `;
 const TopTexts = styled.div`
   ${mobile({ display: "none" })};   
@@ -176,7 +175,7 @@ export {
     Container,
     Wrapper,
     Title,
-    Heading,
+    TopSection,
     TopButton,
     TopTexts,
     TopText,
