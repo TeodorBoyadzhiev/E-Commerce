@@ -5,11 +5,10 @@ import { ArrowLeftOutlined, ArrowRightOutlined } from '@mui/icons-material';
 import { sliderItems } from '../data';
 import { mobile } from '../responsive';
 
-
 const Container = styled.div`
     width:92vw;
     height:80vh;
-    padding: 50px;
+    padding: 20px 70px 0 20px;
     display:flex;
     position:relative;
     overflow:hidden;
@@ -28,7 +27,7 @@ const Arrow = styled.div`
     position:absolute;
     top:0;
     bottom:0;
-    left:${props => props.direction === "left" && "60px"};
+    left:${props => props.direction === "left" && "30px"};
     right:${props => props.direction === "right" && "10px"};
     margin:auto;
     cursor:pointer;
