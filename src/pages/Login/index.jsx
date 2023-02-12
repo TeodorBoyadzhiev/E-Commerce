@@ -30,7 +30,7 @@ import {
 
 const Login = () => {
   const { register, unregister, handleSubmit, formState, formState: { errors, submitCount } } = useForm({
-    mode: 'onChange',
+    mode: 'onBlur',
     reValidateMode: 'onChange',
     defaultValues: {
       username: '',
@@ -50,12 +50,12 @@ const Login = () => {
 
   const handleLogin = async (formValues) => {
     try {
-      const username = formValues.username;
+      const username = formValues.username; 
       const password = formValues.password;
-      const token = await reRef.current.getValue();
+      const recaptchaToken = await reRef.current.getValue();
       reRef.current.reset();
 
-      await login(dispatch, { username, password, token });
+      await login(dispatch, { username, password, token: recaptchaToken});
 
       const direction = state ? pathname : "/";
       navigate(direction);

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 //components
 import Navbar from '../../components/Navbar';
-import Footer from '../../components/Footer';
-import PaymentSection from './PaymentSection';
+import Heading from './Heading';
 import CartProducts from './CartProducts';
+import PaymentSection from './PaymentSection';
+import Footer from '../../components/Footer';
 // MUI
 import SimpleAccordion from '../../components/MUI/Accordion';
 //state
@@ -23,7 +24,6 @@ import {
     Empty,
     Button
 } from './Cart.style';
-import Heading from './Heading';
 
 const Cart = () => {
     const cart = useSelector(state => state.cart);

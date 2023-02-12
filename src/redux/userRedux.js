@@ -15,7 +15,7 @@ const userSlice = createSlice({
             state.isFetching = false;
             state.currUser = action.payload;
             state.error = false;
-            localStorage.removeItem('last_seen_product_ids');
+            // localStorage.removeItem('last_seen_product_ids');
         },
         loginFailure: (state) => {
             state.isFetching = false;
@@ -23,11 +23,14 @@ const userSlice = createSlice({
         },
         logout: (state, action) => {
             state.currUser = null;
-            localStorage.removeItem('last_seen_product_ids');
+            // localStorage.removeItem('last_seen_product_ids');
 
         },
+        setNewUserData: (state, action) => {
+            state.currUser = action.payload;
+        }
     }
 });
 
-export const { loginStart, loginSuccess, loginFailure, logout } = userSlice.actions
+export const { loginStart, loginSuccess, loginFailure, logout, setNewUserData } = userSlice.actions
 export default userSlice.reducer;
